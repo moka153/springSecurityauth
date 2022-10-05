@@ -22,8 +22,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
 @Configuration
@@ -52,14 +56,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.headers().frameOptions().disable();
-        http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
+        http.authorizeRequests().antMatchers("/h2-console/**","/refreshToken/**").permitAll();
         //http.formLogin();
-        http.authorizeRequests().antMatchers(HttpMethod.POST,"/users/**").hasAuthority("ADMIN");
-        http.authorizeRequests().antMatchers(HttpMethod.GET,"/users/**").hasAuthority("ADMIN");
+        //http.authorizeRequests().antMatchers(HttpMethod.POST,"/users/**").hasAuthority("ADMIN");
+        //http.authorizeRequests().antMatchers(HttpMethod.GET,"/users/**").hasAuthority("ADMIN");
         http.authorizeRequests().anyRequest().authenticated();
 
         http.addFilter(new JwtAuthenticationFilter(authenticationManagerBean()));
-        http.addFilterBefore(new JwtAutorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JwtAutorizationFilter(), UsernamePasswordAuthenticationFilter.class).cors();
+    }
+
+    @Bean
+    public CorsFilter corsFilter(){
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        final CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.setAllowedOrigins(Arrays.asList("http://localhost:4200","http://localhost:192.168.1.34/android"));
+        config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type" ,"Accept" , "Authorization"));
+        config.setAllowedMethods(Arrays.asList("POST","GET","PUT" ,"PATCH","DELETE","OPTIONS"));
+        source.registerCorsConfiguration("/**",config);
+        return new CorsFilter(source);
     }
 
     @Bean

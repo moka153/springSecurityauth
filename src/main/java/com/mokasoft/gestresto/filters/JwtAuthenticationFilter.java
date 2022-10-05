@@ -41,7 +41,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         System.out.println("successfulAuthentication");
         User user = (User) authResult.getPrincipal();
-        Algorithm algo1 = Algorithm.HMAC256("mySecret1234");
+        Algorithm algo1 = Algorithm.HMAC256("moka153");
         String jwtAccesToken = JWT.create()
                 .withSubject(user.getUsername())
                         .withExpiresAt(new Date(System.currentTimeMillis()+5*60*1000))
