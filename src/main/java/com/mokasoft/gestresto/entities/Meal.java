@@ -20,8 +20,9 @@ public class Meal {
     private String mealDescription;
     private BigDecimal costPrice;
     private BigDecimal price;
-    private String photo;
+    private String picture;
     @ManyToOne
     private Category category;
+
 
 }
