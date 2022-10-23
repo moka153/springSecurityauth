@@ -33,11 +33,12 @@ public class GestRestoApplication {
 				accountService.addNewRole(new AppRole(null,"CASHIER"));
 
 
-				accountService.addNewUser(new AppUser(null,"waiter1","1234",new ArrayList<>()));
-				accountService.addNewUser(new AppUser(null,"admin","1234",new ArrayList<>()));
-				accountService.addNewUser(new AppUser(null,"waiter2","1234",new ArrayList<>()));
-				accountService.addNewUser(new AppUser(null,"cashier1","1234",new ArrayList<>()));
-				accountService.addNewUser(new AppUser(null,"cashier2","1234",new ArrayList<>()));
+
+				accountService.addNewUser(new AppUser(null,"waiter1","1234",new ArrayList<>(),new ArrayList<>()));
+				accountService.addNewUser(new AppUser(null,"admin","1234",new ArrayList<>(),new ArrayList<>()));
+				accountService.addNewUser(new AppUser(null,"waiter2","1234",new ArrayList<>(),new ArrayList<>()));
+				accountService.addNewUser(new AppUser(null,"cashier1","1234",new ArrayList<>(),new ArrayList<>()));
+				accountService.addNewUser(new AppUser(null,"cashier2","1234",new ArrayList<>(),new ArrayList<>()));
 
 
 			accountService.addRoleToUser("waiter1","WAITER");
