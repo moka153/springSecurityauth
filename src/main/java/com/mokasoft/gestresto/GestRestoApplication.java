@@ -2,9 +2,11 @@ package com.mokasoft.gestresto;
 
 import com.mokasoft.gestresto.dtos.AppTableDto;
 import com.mokasoft.gestresto.dtos.CategoryDto;
+import com.mokasoft.gestresto.dtos.ProductDto;
 import com.mokasoft.gestresto.dtos.RoomDto;
 import com.mokasoft.gestresto.entities.AppRole;
 import com.mokasoft.gestresto.entities.AppUser;
+import com.mokasoft.gestresto.enums.ProductType;
 import com.mokasoft.gestresto.mappers.ProductMapper;
 import com.mokasoft.gestresto.mappers.RoomTableMapper;
 import com.mokasoft.gestresto.services.AccountService;
@@ -18,6 +20,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,7 +108,16 @@ public class GestRestoApplication {
 
             List<CategoryDto> categoryDtos = productService.getAllCategories();
             for(CategoryDto c : categoryDtos){
-                System.out.println(c.getName() + " " + c.getPicture());
+                ProductDto productDto = new ProductDto();
+                productDto.setDesignation("product "+c.getCategoryId());
+                productDto.setQuantity(10);
+                productDto.setType(ProductType.PLAT);
+                productDto.setCategoryDto(c);
+                productDto.setDescription("");
+                productDto.setCostPrice(BigDecimal.valueOf(250));
+                productDto.setPrice(BigDecimal.valueOf(500));
+                productDto.setPicture("");
+                productService.saveProduct(productDto);
             }
 
 

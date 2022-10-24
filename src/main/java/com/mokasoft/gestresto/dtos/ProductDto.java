@@ -17,6 +17,6 @@ public class ProductDto {
     private BigDecimal price;
     private String picture;
     private int quantity;
-    private Category category;
+    private CategoryDto categoryDto;
 
 }

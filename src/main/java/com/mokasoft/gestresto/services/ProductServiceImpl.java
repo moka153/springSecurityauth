@@ -1,9 +1,12 @@
 package com.mokasoft.gestresto.services;
 
 import com.mokasoft.gestresto.dtos.CategoryDto;
+import com.mokasoft.gestresto.dtos.ProductDto;
 import com.mokasoft.gestresto.entities.Category;
+import com.mokasoft.gestresto.entities.Product;
 import com.mokasoft.gestresto.mappers.ProductMapper;
 import com.mokasoft.gestresto.repositories.CategoryRepository;
+import com.mokasoft.gestresto.repositories.ProductRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,7 @@ public class ProductServiceImpl implements ProductService {
     private CategoryRepository categoryRepository;
     private ProductMapper productMapper;
 
+    private ProductRepository productRepository;
     @Override
     public CategoryDto saveCategory(CategoryDto categoryDto) {
         log.info("saving new Category");
@@ -41,5 +45,26 @@ public class ProductServiceImpl implements ProductService {
         List<CategoryDto> categoryDtos = categories.stream().
                 map(cat -> productMapper.fromCategory(cat)).collect(Collectors.toList());
         return categoryDtos;
+    }
+
+    @Override
+    public ProductDto saveProduct(ProductDto productDto) {
+        log.info("saving new Product");
+        Product product = productMapper.fromProductDto(productDto);
+        Product saveProduct = productRepository.save(product);
+        return productMapper.fromProduct(saveProduct);
+    }
+
+    @Override
+    public void deleteProduct(Long idProduct) {
+        productRepository.deleteById(idProduct);
+    }
+
+    @Override
+    public List<ProductDto> getAllProducts() {
+        List<Product> products = productRepository.findAll();
+        List<ProductDto> productDtos = products.stream()
+                .map(product -> productMapper.fromProduct(product)).collect(Collectors.toList());
+        return productDtos;
     }
 }

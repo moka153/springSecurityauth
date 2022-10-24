@@ -84,8 +84,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+    //enable disable security
     @Override
     public void configure(WebSecurity web) throws Exception{
-        web.ignoring().antMatchers("/categories/**");
+        web.ignoring().antMatchers("/products/**");
     }
 }
