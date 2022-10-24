@@ -103,7 +103,17 @@ public class GestRestoApplication {
             categoryDto5.setPicture("https://www.google.com/url?sa=i&url=https%3A%2F%2Ffr.freepik.com%2Fphotos%2Fboissons&psig=AOvVaw1VRlr3wvJ5LUSVqmzSEfQZ&ust=1666706394618000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCMCp7aWD-foCFQAAAAAdAAAAABAE");
             productService.saveCategory(categoryDto5);
 
+            List<CategoryDto> categoryDtos = productService.getAllCategories();
+            for(CategoryDto c : categoryDtos){
+                System.out.println(c.getName() + " " + c.getPicture());
+            }
 
+
+
+            List<CategoryDto> categoryDtosd = productService.getAllCategories();
+            for(CategoryDto c : categoryDtosd){
+                System.out.println(c.getName() + " " + c.getPicture());
+            }
         };
     }
 }
