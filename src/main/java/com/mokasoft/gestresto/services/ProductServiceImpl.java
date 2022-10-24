@@ -1,11 +1,14 @@
 package com.mokasoft.gestresto.services;
 
 import com.mokasoft.gestresto.dtos.CategoryDto;
+import com.mokasoft.gestresto.dtos.OptionDto;
 import com.mokasoft.gestresto.dtos.ProductDto;
 import com.mokasoft.gestresto.entities.Category;
+import com.mokasoft.gestresto.entities.Option;
 import com.mokasoft.gestresto.entities.Product;
 import com.mokasoft.gestresto.mappers.ProductMapper;
 import com.mokasoft.gestresto.repositories.CategoryRepository;
+import com.mokasoft.gestresto.repositories.OptionRepository;
 import com.mokasoft.gestresto.repositories.ProductRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +29,8 @@ public class ProductServiceImpl implements ProductService {
     private ProductMapper productMapper;
 
     private ProductRepository productRepository;
+
+    private OptionRepository optionRepository;
     @Override
     public CategoryDto saveCategory(CategoryDto categoryDto) {
         log.info("saving new Category");
@@ -66,5 +71,26 @@ public class ProductServiceImpl implements ProductService {
         List<ProductDto> productDtos = products.stream()
                 .map(product -> productMapper.fromProduct(product)).collect(Collectors.toList());
         return productDtos;
+    }
+
+    @Override
+    public OptionDto saveOption(OptionDto optionDto) {
+        log.info("saving option");
+        Option option = productMapper.fromOptionDto(optionDto);
+        Option saveOption = optionRepository.save(option);
+        return productMapper.fromOption(saveOption);
+    }
+
+    @Override
+    public void deleteOption(Long idOption) {
+        optionRepository.deleteById(idOption);
+    }
+
+    @Override
+    public List<OptionDto> options() {
+        List<Option> options = optionRepository.findAll();
+        List<OptionDto> optionDtos = options.stream().
+                map(option -> productMapper.fromOption(option)).collect(Collectors.toList());
+        return optionDtos;
     }
 }

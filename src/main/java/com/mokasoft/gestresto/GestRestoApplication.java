@@ -1,9 +1,6 @@
 package com.mokasoft.gestresto;
 
-import com.mokasoft.gestresto.dtos.AppTableDto;
-import com.mokasoft.gestresto.dtos.CategoryDto;
-import com.mokasoft.gestresto.dtos.ProductDto;
-import com.mokasoft.gestresto.dtos.RoomDto;
+import com.mokasoft.gestresto.dtos.*;
 import com.mokasoft.gestresto.entities.AppRole;
 import com.mokasoft.gestresto.entities.AppUser;
 import com.mokasoft.gestresto.enums.ProductType;
@@ -126,6 +123,25 @@ public class GestRestoApplication {
             for(CategoryDto c : categoryDtosd){
                 System.out.println(c.getName() + " " + c.getPicture());
             }
+
+            List<ProductDto> productDtos = productService.getAllProducts();
+            for(ProductDto p : productDtos){
+                OptionDto optionDto = new OptionDto();
+                optionDto.setName("sans fromage");
+                optionDto.setProductDto(p);
+                productService.saveOption(optionDto);
+
+                OptionDto optionDto2 = new OptionDto();
+                optionDto2.setName("sans sel");
+                optionDto2.setProductDto(p);
+                productService.saveOption(optionDto2);
+
+                OptionDto optionDto3 = new OptionDto();
+                optionDto3.setName("sans salade");
+                optionDto3.setProductDto(p);
+                productService.saveOption(optionDto3);
+            }
+
         };
     }
 }

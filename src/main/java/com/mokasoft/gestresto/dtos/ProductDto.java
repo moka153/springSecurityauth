@@ -6,6 +6,7 @@ import lombok.Data;
 
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 public class ProductDto {
@@ -18,5 +19,6 @@ public class ProductDto {
     private String picture;
     private int quantity;
     private CategoryDto categoryDto;
+    private List<OptionDto> optionDtos;
 
 }

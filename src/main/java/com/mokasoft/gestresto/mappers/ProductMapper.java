@@ -1,10 +1,11 @@
 package com.mokasoft.gestresto.mappers;
 
 import com.mokasoft.gestresto.dtos.CategoryDto;
+import com.mokasoft.gestresto.dtos.OptionDto;
 import com.mokasoft.gestresto.dtos.ProductDto;
 import com.mokasoft.gestresto.entities.Category;
+import com.mokasoft.gestresto.entities.Option;
 import com.mokasoft.gestresto.entities.Product;
-import com.mokasoft.gestresto.enums.ProductType;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -33,5 +34,18 @@ public class ProductMapper {
         BeanUtils.copyProperties(productDto,product);
         product.setCategory(fromCategoryDto(productDto.getCategoryDto()));
         return product;
+    }
+
+    public OptionDto fromOption(Option option){
+        OptionDto optionDto = new OptionDto();
+        BeanUtils.copyProperties(option,optionDto);
+        optionDto.setProductDto(fromProduct(option.getProduct()));
+        return optionDto;
+    }
+    public Option fromOptionDto(OptionDto optionDto){
+        Option option = new Option();
+        BeanUtils.copyProperties(optionDto,option);
+        option.setProduct(fromProductDto(optionDto.getProductDto()));
+        return option;
     }
 }
