@@ -3,9 +3,11 @@ package com.mokasoft.gestresto.services;
 import com.mokasoft.gestresto.dtos.AppTableDto;
 import com.mokasoft.gestresto.dtos.RoomDto;
 import com.mokasoft.gestresto.entities.AppTable;
+import com.mokasoft.gestresto.entities.AppUser;
 import com.mokasoft.gestresto.entities.Room;
 import com.mokasoft.gestresto.mappers.RoomTableMapper;
 import com.mokasoft.gestresto.repositories.AppTableRepository;
+import com.mokasoft.gestresto.repositories.AppUserRepository;
 import com.mokasoft.gestresto.repositories.RoomRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +26,7 @@ public class RoomServiceImpl implements RoomService{
     private RoomTableMapper roomMapper;
     private AppTableRepository appTableRepository;
 
+    private AppUserRepository appUserRepository;
     @Override
     public RoomDto saveRoom(RoomDto roomDto) {
         log.info("saving new Room");
@@ -50,6 +53,7 @@ public class RoomServiceImpl implements RoomService{
 
     @Override
     public void affectWaiterToTable(String waiterName, String tableName) {
+        AppUser appUser = appUserRepository.findByUsername(waiterName);
 
     }
 }

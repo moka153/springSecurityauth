@@ -6,8 +6,12 @@ import com.mokasoft.gestresto.dtos.ProductDto;
 import com.mokasoft.gestresto.entities.Category;
 import com.mokasoft.gestresto.entities.Option;
 import com.mokasoft.gestresto.entities.Product;
+import com.mokasoft.gestresto.repositories.OptionRepository;
+import com.mokasoft.gestresto.services.ProductService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ProductMapper {
