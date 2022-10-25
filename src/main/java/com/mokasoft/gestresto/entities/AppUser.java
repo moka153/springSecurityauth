@@ -23,5 +23,4 @@ public class AppUser {
     private Collection<AppRole> appRoles = new ArrayDeque<>();
     @OneToMany(mappedBy = "waiter")
     private List<AppTable> tables;
-
 }

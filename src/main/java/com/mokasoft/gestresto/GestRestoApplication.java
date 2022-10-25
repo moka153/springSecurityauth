@@ -71,14 +71,14 @@ public class GestRestoApplication {
             List<RoomDto> roomDtos = roomService.getRooms();
 
             for (RoomDto r : roomDtos) {
-                for (int i = 0; i < 20; i++) {
-                    AppTableDto appTableDto = new AppTableDto();
-                    appTableDto.setTableNumber("table " + i);
-                    appTableDto.setAvailable(true);
-                    appTableDto.setCustomerNumber(0);
-                    appTableDto.setRoomDto(r);
-                    roomService.saveTable(appTableDto);
-                }
+
+                AppTableDto appTableDto = new AppTableDto();
+                appTableDto.setTableNumber("table " + r.getRoomId());
+                appTableDto.setAvailable(true);
+                appTableDto.setCustomerNumber(0);
+                appTableDto.setRoomDto(r);
+                roomService.saveTable(appTableDto);
+
             }
 
             //creation de quelques catégorie pour le teste
@@ -104,9 +104,9 @@ public class GestRestoApplication {
             productService.saveCategory(categoryDto5);
 
             List<CategoryDto> categoryDtos = productService.getAllCategories();
-            for(CategoryDto c : categoryDtos){
+            for (CategoryDto c : categoryDtos) {
                 ProductDto productDto = new ProductDto();
-                productDto.setDesignation("product "+c.getCategoryId());
+                productDto.setDesignation("product " + c.getCategoryId());
                 productDto.setQuantity(10);
                 productDto.setType(ProductType.PLAT);
                 productDto.setCategoryDto(c);
@@ -118,14 +118,20 @@ public class GestRestoApplication {
             }
 
 
+            roomService.affectWaiterToTable("waiter1", "table 1");
+            roomService.affectWaiterToTable("waiter1", "table 2");
+
+
+
+
 
             List<CategoryDto> categoryDtosd = productService.getAllCategories();
-            for(CategoryDto c : categoryDtosd){
+            for (CategoryDto c : categoryDtosd) {
                 System.out.println(c.getName() + " " + c.getPicture());
             }
 
             List<ProductDto> productDtos = productService.getAllProducts();
-            for(ProductDto p : productDtos){
+            for (ProductDto p : productDtos) {
                 OptionDto optionDto = new OptionDto();
                 optionDto.setName("sans fromage");
                 optionDto.setProductDto(p);
