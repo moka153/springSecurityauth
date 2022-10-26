@@ -2,6 +2,8 @@ package com.mokasoft.gestresto.services;
 
 import com.mokasoft.gestresto.dtos.AppTableDto;
 import com.mokasoft.gestresto.dtos.RoomDto;
+import com.mokasoft.gestresto.entities.AppTable;
+import com.mokasoft.gestresto.entities.AppUser;
 
 import java.util.List;
 
@@ -12,4 +14,6 @@ public interface RoomService {
 
     void affectWaiterToTable(String waiterName,String tableName);
 
+
+    List<AppTable> getUsersTable(AppUser appUser);
 }

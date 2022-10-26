@@ -57,4 +57,15 @@ public class RoomServiceImpl implements RoomService{
         AppTable appTable = appTableRepository.findByTableNumber(tableName);
         appTable.setWaiter(appUser);
     }
+
+
+
+
+    @Override
+    public List<AppTable> getUsersTable(AppUser appUser) {
+        List<AppTable> appTables = appTableRepository.findByWaiter(appUser);
+        return appTables;
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package com.mokasoft.gestresto.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -22,5 +24,6 @@ public class AppUser {
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<AppRole> appRoles = new ArrayDeque<>();
     @OneToMany(mappedBy = "waiter")
-    private List<AppTable> tables;
+    @JsonIgnore
+    private List<AppTable> tables = new ArrayList<>();
 }
