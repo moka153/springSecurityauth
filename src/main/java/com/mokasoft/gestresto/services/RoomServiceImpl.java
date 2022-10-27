@@ -55,16 +55,13 @@ public class RoomServiceImpl implements RoomService{
     public void affectWaiterToTable(String waiterName, String tableName) {
         AppUser appUser = appUserRepository.findByUsername(waiterName);
         AppTable appTable = appTableRepository.findByTableNumber(tableName);
-        appTable.setWaiter(appUser);
+        appTable.setAppUser(appUser);
     }
 
 
-
-
     @Override
-    public List<AppTable> getUsersTable(AppUser appUser) {
-        List<AppTable> appTables = appTableRepository.findByWaiter(appUser);
-        return appTables;
+    public List<AppTable> getUsersTable(AppUser userName) {
+        return appTableRepository.findByAppUser(userName);
     }
 
 

@@ -1,5 +1,6 @@
 package com.mokasoft.gestresto.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,8 @@ public class AppTable {
     private int customerNumber;
     private boolean available;
     @ManyToOne
-    private AppUser waiter;
+    @JsonIgnore
+    private AppUser appUser;
     @ManyToOne
     private Room room;
 }

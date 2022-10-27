@@ -3,6 +3,8 @@ package com.mokasoft.gestresto.filters;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mokasoft.gestresto.entities.AppUser;
+import com.mokasoft.gestresto.repositories.AppUserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,6 +25,7 @@ import java.util.stream.Collectors;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private AuthenticationManager authenticationManager;
 
+
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
@@ -41,13 +44,14 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         System.out.println("successfulAuthentication");
         User user = (User) authResult.getPrincipal();
+
         Algorithm algo1 = Algorithm.HMAC256("moka153");
         String jwtAccesToken = JWT.create()
                 .withSubject(user.getUsername())
-                        .withExpiresAt(new Date(System.currentTimeMillis()+5*60*1000))
-                                .withIssuer(request.getRequestURL().toString())
-                                        .withClaim("roles",user.getAuthorities().stream().map(ga->ga.getAuthority()).collect(Collectors.toList()))
-                                                .sign(algo1);
+                .withExpiresAt(new Date(System.currentTimeMillis()+5*60*1000))
+                .withIssuer(request.getRequestURL().toString())
+                .withClaim("roles",user.getAuthorities().stream().map(ga->ga.getAuthority()).collect(Collectors.toList()))
+                .sign(algo1);
 
         String jwtRefreshToken = JWT.create()
                 .withSubject(user.getUsername())

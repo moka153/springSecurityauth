@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface AppTableRepository extends JpaRepository<AppTable,Long> {
     AppTable findByTableNumber(String tableNumber);
-    List<AppTable> findByWaiter(AppUser appUser);
+    List<AppTable> findByAppUser(AppUser userName);
 }

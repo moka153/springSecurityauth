@@ -3,6 +3,7 @@ package com.mokasoft.gestresto.services;
 import com.mokasoft.gestresto.dtos.CategoryDto;
 import com.mokasoft.gestresto.dtos.OptionDto;
 import com.mokasoft.gestresto.dtos.ProductDto;
+import com.mokasoft.gestresto.entities.Category;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -18,4 +19,6 @@ public interface ProductService {
     OptionDto saveOption(OptionDto optionDto);
     void deleteOption(Long idOption);
     List<OptionDto> options();
+
+    List<ProductDto> getProductByCategory(Category category);
 }

@@ -23,7 +23,7 @@ public class AppUser {
     private String password;
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<AppRole> appRoles = new ArrayDeque<>();
-    @OneToMany(mappedBy = "waiter")
+    @OneToMany(mappedBy = "appUser")
     @JsonIgnore
-    private List<AppTable> tables = new ArrayList<>();
+    private List<AppTable> tables;
 }

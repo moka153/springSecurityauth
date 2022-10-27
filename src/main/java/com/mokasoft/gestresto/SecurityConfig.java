@@ -46,6 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 appUser.getAppRoles().forEach(r->{
                     authorities.add(new SimpleGrantedAuthority(r.getRoleName()));
                 });
+
                 return new User(appUser.getUsername(),appUser.getPassword(),authorities);
             }
         });
@@ -56,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.headers().frameOptions().disable();
-        //http.authorizeRequests().antMatchers("/").permitAll();
+        http.authorizeRequests().antMatchers("/").permitAll();
         http.authorizeRequests().antMatchers("/h2-console/**","/refreshToken/**","/**","/profile").permitAll();
         //http.formLogin();
         //http.authorizeRequests().antMatchers(HttpMethod.POST,"/users/**").hasAuthority("ADMIN");

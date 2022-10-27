@@ -2,7 +2,9 @@ package com.mokasoft.gestresto;
 
 import com.mokasoft.gestresto.dtos.*;
 import com.mokasoft.gestresto.entities.AppRole;
+import com.mokasoft.gestresto.entities.AppTable;
 import com.mokasoft.gestresto.entities.AppUser;
+import com.mokasoft.gestresto.entities.Category;
 import com.mokasoft.gestresto.enums.ProductType;
 import com.mokasoft.gestresto.mappers.ProductMapper;
 import com.mokasoft.gestresto.mappers.RoomTableMapper;
@@ -148,6 +150,21 @@ public class GestRestoApplication {
                 productService.saveOption(optionDto3);
             }
 
+            AppUser appUser= new AppUser();
+            appUser.setId(1l);
+            appUser.setUsername("waiter1");
+            List<AppTable> appTables = roomService.getUsersTable(appUser);
+            for(AppTable at : appTables){
+                System.out.println(at.getTableNumber());
+            }
+
+            Category category = new Category();
+            category.setCategoryId(1l);
+            category.setName("Sandwich");
+            List<ProductDto> productDtos1 = productService.getProductByCategory(category);
+            for(ProductDto p : productDtos1){
+                System.out.println(p.getDesignation());
+            }
         };
     }
 }

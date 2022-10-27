@@ -15,5 +15,5 @@ public interface RoomService {
     void affectWaiterToTable(String waiterName,String tableName);
 
 
-    List<AppTable> getUsersTable(AppUser appUser);
+    List<AppTable> getUsersTable(AppUser userName);
 }

@@ -2,6 +2,8 @@ package com.mokasoft.gestresto.web;
 
 import com.mokasoft.gestresto.dtos.CategoryDto;
 import com.mokasoft.gestresto.dtos.ProductDto;
+import com.mokasoft.gestresto.entities.Category;
+import com.mokasoft.gestresto.repositories.CategoryRepository;
 import com.mokasoft.gestresto.services.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ProductController {
     private ProductService productService;
+    private CategoryRepository categoryRepository;
 
     //categories controller
     @GetMapping(path = "/products/categories")
@@ -57,5 +60,10 @@ public class ProductController {
     @DeleteMapping("/products/{id}")
     public void deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
+    }
+    @GetMapping("/productsByCategory/{idCategory}")
+    public List<ProductDto> getProductByCategory(@PathVariable Long idCategory){
+        Category category = categoryRepository.findById(idCategory).orElse(null);
+        return productService.getProductByCategory(category);
     }
 }
