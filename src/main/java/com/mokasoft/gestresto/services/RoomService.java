@@ -9,10 +9,12 @@ import java.util.List;
 
 public interface RoomService {
     RoomDto saveRoom(RoomDto roomDto);
+
     List<RoomDto> getRooms();
+
     AppTableDto saveTable(AppTableDto appTableDto);
 
-    void affectWaiterToTable(String waiterName,String tableName);
+    void affectWaiterToTable(String waiterName, String tableName);
 
 
     List<AppTable> getUsersTable(AppUser userName);

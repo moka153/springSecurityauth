@@ -103,5 +103,14 @@ public class ProductServiceImpl implements ProductService {
         return productDtos;
     }
 
+    @Override
+    public List<OptionDto> getProductOptions(ProductDto productDto) {
+        Product product = productMapper.fromProductDto(productDto);
+        List<Option> options = optionRepository.findOptionByProduct(product);
+        List<OptionDto> optionDtos = options.stream()
+                .map(option -> productMapper.fromOption(option)).collect(Collectors.toList());
+        return optionDtos;
+    }
+
 
 }

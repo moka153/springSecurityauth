@@ -1,9 +1,13 @@
 package com.mokasoft.gestresto.web;
 
 import com.mokasoft.gestresto.dtos.CategoryDto;
+import com.mokasoft.gestresto.dtos.OptionDto;
 import com.mokasoft.gestresto.dtos.ProductDto;
 import com.mokasoft.gestresto.entities.Category;
+import com.mokasoft.gestresto.entities.Product;
+import com.mokasoft.gestresto.mappers.ProductMapper;
 import com.mokasoft.gestresto.repositories.CategoryRepository;
+import com.mokasoft.gestresto.repositories.ProductRepository;
 import com.mokasoft.gestresto.services.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +20,10 @@ import java.util.List;
 public class ProductController {
     private ProductService productService;
     private CategoryRepository categoryRepository;
+
+    private ProductRepository productRepository;
+
+    private ProductMapper productMapper;
 
     //categories controller
     @GetMapping(path = "/products/categories")
@@ -65,5 +73,11 @@ public class ProductController {
     public List<ProductDto> getProductByCategory(@PathVariable Long idCategory){
         Category category = categoryRepository.findById(idCategory).orElse(null);
         return productService.getProductByCategory(category);
+    }
+
+    @GetMapping("/productsOption/{idProduct}")
+    public List<OptionDto> getProductOptions(@PathVariable Long idProduct){
+        Product product = productRepository.findById(idProduct).orElse(null);
+        return productService.getProductOptions(productMapper.fromProduct(product));
     }
 }
