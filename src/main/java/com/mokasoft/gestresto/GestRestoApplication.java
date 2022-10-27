@@ -86,23 +86,23 @@ public class GestRestoApplication {
             //creation de quelques catégorie pour le teste
             CategoryDto categoryDto = new CategoryDto();
             categoryDto.setName("Sandwich");
-            categoryDto.setPicture("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Ffr%2Fphotos%2Fsandwich&psig=AOvVaw2LbUQsicbX6nbb8cYhJ4rv&ust=1666705977420000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCMD5196C-foCFQAAAAAdAAAAABAE");
+            categoryDto.setPicture("https://www.la-viande.fr/sites/default/files/inline-images/club-sandwich.jpg");
             productService.saveCategory(categoryDto);
             CategoryDto categoryDto2 = new CategoryDto();
             categoryDto2.setName("Burgers");
-            categoryDto2.setPicture("https://www.google.com/url?sa=i&url=https%3A%2F%2Ffr.depositphotos.com%2Fstock-photos%2Fburger.html&psig=AOvVaw0lm8BscHqbkWSARCJAinCD&ust=1666706045445000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCMCWsPaC-foCFQAAAAAdAAAAABAE");
+            categoryDto2.setPicture("https://www.foodandwine.com/thmb/iPEKKufR4Ukrbcbjn-5rBrpFNyU=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/hatch-chile-smash-burgers-FT-seo-RECIPE0719_0-183c980af99541528d6cfa7f40ca2c21.jpg");
             productService.saveCategory(categoryDto2);
             CategoryDto categoryDto3 = new CategoryDto();
             categoryDto3.setName("Pizza");
-            categoryDto3.setPicture("https://www.google.com/url?sa=i&url=https%3A%2F%2Ffr.freepik.com%2Fphotos-vecteurs-libre%2Fpizza&psig=AOvVaw0SNiKwLWe6umfjQK1S3v54&ust=1666706326904000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCODjx4WD-foCFQAAAAAdAAAAABAE");
+            categoryDto3.setPicture("https://res.cloudinary.com/hv9ssmzrz/image/fetch/c_fill,f_auto,h_387,q_auto,w_650/https://s3-eu-west-1.amazonaws.com/images-ca-1-0-1-eu/tag_photos/original/889/pizza_flickr_4932057475_2a9ce50750_b.jpg");
             productService.saveCategory(categoryDto3);
             CategoryDto categoryDto4 = new CategoryDto();
             categoryDto4.setName("Plat");
-            categoryDto4.setPicture("https://www.google.com/url?sa=i&url=https%3A%2F%2Frecettescookeo.com%2Frecipe-type%2Fplats&psig=AOvVaw2YaEwXcBcxa6Cj_3-GLjF5&ust=1666706058928000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCKjFxpSD-foCFQAAAAAdAAAAABAE");
+            categoryDto4.setPicture("https://gourmandiseassia.fr/wp-content/uploads/2019/02/20200204_230914.jpg");
             productService.saveCategory(categoryDto4);
             CategoryDto categoryDto5 = new CategoryDto();
             categoryDto5.setName("Boissons");
-            categoryDto5.setPicture("https://www.google.com/url?sa=i&url=https%3A%2F%2Ffr.freepik.com%2Fphotos%2Fboissons&psig=AOvVaw1VRlr3wvJ5LUSVqmzSEfQZ&ust=1666706394618000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCMCp7aWD-foCFQAAAAAdAAAAABAE");
+            categoryDto5.setPicture("http://santejeunes.ma/wp-content/uploads/2018/02/Boisson-gazeuse_640.jpg");
             productService.saveCategory(categoryDto5);
 
             List<CategoryDto> categoryDtos = productService.getAllCategories();
