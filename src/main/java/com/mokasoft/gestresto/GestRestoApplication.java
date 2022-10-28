@@ -22,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @SpringBootApplication
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
@@ -104,19 +105,40 @@ public class GestRestoApplication {
             categoryDto5.setName("Boissons");
             categoryDto5.setPicture("http://santejeunes.ma/wp-content/uploads/2018/02/Boisson-gazeuse_640.jpg");
             productService.saveCategory(categoryDto5);
-
+            String[] pictures = {"https://img.cuisineaz.com/660x660/2018/04/26/i139890-.webp",
+                    "https://img.cuisineaz.com/660x660/2016/04/03/i113488-quiche-lorraine-a-la-vache-qui-rit-et-pointe-d-epinards.webp",
+                    "https://img.cuisineaz.com/660x660/2018/12/30/i145407-ramen-au-poulet.webp",
+                    "https://img.cuisineaz.com/660x660/2015/04/21/i106372-colombo-de-poulet.webp",
+                    "https://img.cuisineaz.com/660x660/2015/07/07/i106502-tempura-de-crevettes.webp"
+            };
             List<CategoryDto> categoryDtos = productService.getAllCategories();
             for (CategoryDto c : categoryDtos) {
-                ProductDto productDto = new ProductDto();
-                productDto.setDesignation("product " + c.getCategoryId());
-                productDto.setQuantity(10);
-                productDto.setType(ProductType.PLAT);
-                productDto.setCategoryDto(c);
-                productDto.setDescription("");
-                productDto.setCostPrice(BigDecimal.valueOf(250));
-                productDto.setPrice(BigDecimal.valueOf(500));
-                productDto.setPicture("");
-                productService.saveProduct(productDto);
+                for(int i = 0 ; i < 20 ; i++){
+                    String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                    String randomString = "";
+                    int lenght = 17;
+                    Random rand = new Random();
+                    char[] des = new char[lenght];
+                    for (int j = 0; j < lenght; j++) {
+                        des[j] = characters.charAt(rand.nextInt(characters.length()));
+                    }
+                    for (int k = 0; k < des.length; k++) {
+                        randomString += des[k];
+                    }
+                    double qte =  Math.random()*100;
+                    ProductDto productDto = new ProductDto();
+                    productDto.setDesignation(randomString);
+                    productDto.setQuantity((int) qte);
+                    productDto.setType(ProductType.PLAT);
+                    productDto.setCategoryDto(c);
+                    productDto.setDescription("");
+                    productDto.setCostPrice(BigDecimal.valueOf(Math.random()*100));
+                    productDto.setPrice(BigDecimal.valueOf(Math.random()*1000));
+                    int index = rand.nextInt(pictures.length);
+                    productDto.setPicture(pictures[index]);
+                    productService.saveProduct(productDto);
+                }
+
             }
 
 
