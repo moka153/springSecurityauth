@@ -18,6 +18,8 @@ public class SaleDetail {
     private BigDecimal discount;
     private BigDecimal benefit;
     @ManyToOne
+    private Sale sale;
+    @ManyToOne
     private Product product;
 
 }

@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
@@ -20,4 +22,6 @@ public class AppTable {
     private AppUser appUser;
     @ManyToOne
     private Room room;
+    @OneToMany(mappedBy = "appTable")
+    private List<Sale> sales = new ArrayList<>();
 }

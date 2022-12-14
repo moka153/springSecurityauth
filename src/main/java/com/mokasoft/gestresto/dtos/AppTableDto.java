@@ -2,7 +2,11 @@ package com.mokasoft.gestresto.dtos;
 
 import com.mokasoft.gestresto.entities.AppUser;
 import com.mokasoft.gestresto.entities.Room;
+import com.mokasoft.gestresto.entities.Sale;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class AppTableDto {
@@ -11,4 +15,6 @@ public class AppTableDto {
     private int customerNumber;
     private boolean available;
     private RoomDto roomDto;
+    private List<SaleDto> saleDtos = new ArrayList<>();
+    private AppUser appUser;
 }

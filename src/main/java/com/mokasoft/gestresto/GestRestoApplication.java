@@ -6,11 +6,14 @@ import com.mokasoft.gestresto.entities.AppTable;
 import com.mokasoft.gestresto.entities.AppUser;
 import com.mokasoft.gestresto.entities.Category;
 import com.mokasoft.gestresto.enums.ProductType;
+import com.mokasoft.gestresto.enums.SaleType;
 import com.mokasoft.gestresto.mappers.ProductMapper;
 import com.mokasoft.gestresto.mappers.RoomTableMapper;
+import com.mokasoft.gestresto.mappers.SaleMapper;
 import com.mokasoft.gestresto.services.AccountService;
 import com.mokasoft.gestresto.services.ProductService;
 import com.mokasoft.gestresto.services.RoomService;
+import com.mokasoft.gestresto.services.SaleService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -40,7 +44,8 @@ public class GestRestoApplication {
     @Bean
     CommandLineRunner start(AccountService accountService, RoomService roomService,
                             RoomTableMapper roomMapper, ProductService productService,
-                            ProductMapper productMapper) {
+                            ProductMapper productMapper, SaleService saleService,
+                            SaleMapper saleMapper) {
         return args -> {
 
             accountService.addNewRole(new AppRole(null, "ADMIN"));
@@ -48,11 +53,11 @@ public class GestRestoApplication {
             accountService.addNewRole(new AppRole(null, "CASHIER"));
 
 
-            accountService.addNewUser(new AppUser(null, "waiter1", "1234", new ArrayList<>(), new ArrayList<>()));
-            accountService.addNewUser(new AppUser(null, "admin", "1234", new ArrayList<>(), new ArrayList<>()));
-            accountService.addNewUser(new AppUser(null, "waiter2", "1234", new ArrayList<>(), new ArrayList<>()));
-            accountService.addNewUser(new AppUser(null, "cashier1", "1234", new ArrayList<>(), new ArrayList<>()));
-            accountService.addNewUser(new AppUser(null, "cashier2", "1234", new ArrayList<>(), new ArrayList<>()));
+            accountService.addNewUser(new AppUser(null, "waiter1", "1234", new ArrayList<>(), new ArrayList<>(),new ArrayList<>()));
+            accountService.addNewUser(new AppUser(null, "admin", "1234", new ArrayList<>(), new ArrayList<>(),new ArrayList<>()));
+            accountService.addNewUser(new AppUser(null, "waiter2", "1234", new ArrayList<>(), new ArrayList<>(),new ArrayList<>()));
+            accountService.addNewUser(new AppUser(null, "cashier1", "1234", new ArrayList<>(), new ArrayList<>(),new ArrayList<>()));
+            accountService.addNewUser(new AppUser(null, "cashier2", "1234", new ArrayList<>(), new ArrayList<>(),new ArrayList<>()));
 
 
             accountService.addRoleToUser("waiter1", "WAITER");
@@ -154,6 +159,17 @@ public class GestRestoApplication {
                 System.out.println(c.getName() + " " + c.getPicture());
             }
 
+            SaleDto saleDto = new SaleDto();
+            saleDto.setSaleDate(new Date());
+            AppTableDto appTableDto = new AppTableDto();
+            appTableDto.setTableId(1l);
+            appTableDto.setTableNumber("table 1");
+            saleDto.setAppTableDto(appTableDto);
+            saleDto.setType(SaleType.EATIN);
+            AppUser appUserr = new AppUser();
+            appUserr.setId(1l);
+            saleDto.setAppUser(appUserr);
+            saleService.newSale(saleDto);
             List<ProductDto> productDtos = productService.getAllProducts();
             for (ProductDto p : productDtos) {
                 OptionDto optionDto = new OptionDto();
@@ -188,5 +204,8 @@ public class GestRestoApplication {
                 System.out.println(p.getDesignation());
             }
         };
+
+
+
     }
 }

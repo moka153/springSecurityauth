@@ -26,4 +26,7 @@ public class AppUser {
     @OneToMany(mappedBy = "appUser")
     @JsonIgnore
     private List<AppTable> tables;
+    @OneToMany(mappedBy = "appUser")
+    @JsonIgnore
+    private List<Sale> sales = new ArrayList<>();
 }
