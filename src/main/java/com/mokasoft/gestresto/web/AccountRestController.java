@@ -94,10 +94,7 @@ public class AccountRestController {
         return accountService.loadUserByUserName(principal.getName());
     }
     
-    public void del(){
-        String iam = "azul";
-    }
-
+  
 }
 
 @Data
