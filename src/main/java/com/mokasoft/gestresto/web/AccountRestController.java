@@ -93,6 +93,10 @@ public class AccountRestController {
     public AppUser profile(Principal principal){
         return accountService.loadUserByUserName(principal.getName());
     }
+    
+    public void del(){
+        String iam = "azul";
+    }
 
 }
 
