@@ -94,6 +94,9 @@ public class AccountRestController {
         return accountService.loadUserByUserName(principal.getName());
     }
     
+    public void sayHello(){
+        String hello ="akhir fellawen";
+    }
   
 }
 
