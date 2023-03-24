@@ -161,10 +161,13 @@ public class GestRestoApplication {
 
             SaleDto saleDto = new SaleDto();
             saleDto.setSaleDate(new Date());
-            AppTableDto appTableDto = new AppTableDto();
-            appTableDto.setTableId(1l);
-            appTableDto.setTableNumber("table 1");
-            saleDto.setAppTableDto(appTableDto);
+            //AppTableDto appTableDto = new AppTableDto();
+            //appTableDto.setTableId(1l);
+            //appTableDto.setTableNumber("table 1");
+            AppTable appTable = new AppTable();
+            appTable.setTableId(1l);
+            appTable.setTableNumber("table 1");
+            saleDto.setAppTable(appTable);
             saleDto.setType(SaleType.EATIN);
             AppUser appUserr = new AppUser();
             appUserr.setId(1l);

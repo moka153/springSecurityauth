@@ -3,7 +3,6 @@ package com.mokasoft.gestresto.web;
 import com.mokasoft.gestresto.dtos.AppTableDto;
 import com.mokasoft.gestresto.entities.AppUser;
 import com.mokasoft.gestresto.services.AppTableService;
-import com.mokasoft.gestresto.services.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
