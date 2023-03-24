@@ -23,5 +23,5 @@ public class AppTable {
     @ManyToOne
     private Room room;
     @OneToMany(mappedBy = "appTable")
-    private List<Sale> sales = new ArrayList<>();
+    private List<Sale> sales;
 }

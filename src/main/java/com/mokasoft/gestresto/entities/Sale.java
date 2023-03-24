@@ -1,5 +1,6 @@
 package com.mokasoft.gestresto.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mokasoft.gestresto.enums.SaleType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +18,7 @@ public class Sale {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long saleId;
     @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date saleDate;
     @Enumerated(EnumType.STRING)
     private SaleType type;

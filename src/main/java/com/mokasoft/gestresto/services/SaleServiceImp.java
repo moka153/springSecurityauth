@@ -23,8 +23,8 @@ public class SaleServiceImp implements SaleService {
     @Override
     public SaleDto newSale(SaleDto saleDto) {
         Sale sale = saleMapper.fromSaleDto(saleDto);
-        Sale newSale = saleRepository.save(sale);
-        return saleMapper.fromSale(newSale);
+        Sale savedSale = saleRepository.save(sale);
+        return saleMapper.fromSale(savedSale);
     }
 
     @Override
