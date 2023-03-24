@@ -46,7 +46,7 @@ public class RoomServiceImpl implements RoomService{
     @Override
     public AppTableDto saveTable(AppTableDto appTableDto) {
         log.info("saving new Table");
-        AppTable appTable = roomMapper.fromAppTableDtp(appTableDto);
+        AppTable appTable = roomMapper.fromAppTableDto(appTableDto);
         AppTable saveTable = appTableRepository.save(appTable);
         return roomMapper.fromAppTable(saveTable);
     }

@@ -28,7 +28,7 @@ public class RoomTableMapper {
         return appTableDto;
     }
 
-    public AppTable fromAppTableDtp(AppTableDto appTableDto){
+    public AppTable fromAppTableDto(AppTableDto appTableDto){
         AppTable appTable = new AppTable();
         BeanUtils.copyProperties(appTableDto,appTable);
         appTable.setRoom(fromRoomDto(appTableDto.getRoomDto()));

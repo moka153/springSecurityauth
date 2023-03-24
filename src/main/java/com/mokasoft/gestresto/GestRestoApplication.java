@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Random;
 
 @SpringBootApplication
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = false)
 public class GestRestoApplication {
 
     public static void main(String[] args) {

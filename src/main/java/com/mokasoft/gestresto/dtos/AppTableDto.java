@@ -15,6 +15,5 @@ public class AppTableDto {
     private int customerNumber;
     private boolean available;
     private RoomDto roomDto;
-    private List<SaleDto> saleDtos = new ArrayList<>();
     private AppUser appUser;
 }
