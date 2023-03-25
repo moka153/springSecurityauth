@@ -18,8 +18,14 @@ public class SaleController {
         return saleService.newSale(saleDto);
     }
 
-    @GetMapping(path = "/sales")
+    @GetMapping
     public List<SaleDto> getAllSales(){
         return saleService.getSales();
     }
+
+    @GetMapping("/tableId")
+    public SaleDto getSalePerTable(@PathVariable Long tableId){
+        return saleService.getSalePerTable(tableId);
+    }
+
 }

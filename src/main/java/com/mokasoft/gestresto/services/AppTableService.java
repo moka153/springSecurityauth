@@ -1,6 +1,7 @@
 package com.mokasoft.gestresto.services;
 
 import com.mokasoft.gestresto.dtos.AppTableDto;
+import com.mokasoft.gestresto.dtos.SaleDto;
 import com.mokasoft.gestresto.entities.AppUser;
 
 import java.util.List;

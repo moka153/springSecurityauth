@@ -73,4 +73,11 @@ public class SaleServiceImp implements SaleService {
         List<SaleDto> saleDtos = sales.stream().map(sale -> saleMapper.fromSale(sale)).collect(Collectors.toList());
         return saleDtos;
     }
+
+    @Override
+    public SaleDto getSalePerTable(Long tableId) {
+        Sale sale = saleRepository.findByAppTable(tableId);
+        SaleDto saleDto = saleMapper.fromSale(sale);
+        return saleDto;
+    }
 }
