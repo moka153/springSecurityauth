@@ -4,13 +4,14 @@ import com.mokasoft.gestresto.dtos.AppTableDto;
 import com.mokasoft.gestresto.dtos.RoomDto;
 import com.mokasoft.gestresto.entities.AppTable;
 import com.mokasoft.gestresto.entities.AppUser;
+import com.mokasoft.gestresto.entities.Room;
 
 import java.util.List;
 
 public interface RoomService {
     RoomDto saveRoom(RoomDto roomDto);
 
-    List<RoomDto> getRooms();
+    List<Room> getRooms();
 
     AppTableDto saveTable(AppTableDto appTableDto);
 

@@ -26,6 +26,7 @@ public class AppTableServiceImpl implements AppTableService {
     @Override
     public AppTableDto updateTable(AppTableDto appTableDto) {
         AppTable appTable =  roomTableMapper.fromAppTableDto(appTableDto);
+        appTable.setTableId(appTableDto.getTableId());
         AppTable savedTable = appTableRepository.save(appTable);
         return roomTableMapper.fromAppTable(savedTable);
     }

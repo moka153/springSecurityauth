@@ -24,14 +24,14 @@ public class RoomTableMapper {
     public AppTableDto fromAppTable(AppTable appTable){
         AppTableDto appTableDto = new AppTableDto();
         BeanUtils.copyProperties(appTable,appTableDto);
-        appTableDto.setRoomDto(fromRoom(appTable.getRoom()));
+        //appTableDto.setRoom(fromRoom(appTable.getRoom()));
         return appTableDto;
     }
 
     public AppTable fromAppTableDto(AppTableDto appTableDto){
         AppTable appTable = new AppTable();
         BeanUtils.copyProperties(appTableDto,appTable);
-        appTable.setRoom(fromRoomDto(appTableDto.getRoomDto()));
+        //appTable.setRoom(fromRoomDto(appTableDto.getRoom()));
         return appTable;
     }
 }

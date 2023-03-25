@@ -30,7 +30,7 @@ public class Sale {
     private AppUser appUser;
     @OneToMany(mappedBy = "sale")
     private List<SaleDetail> saleDetails = new ArrayList<>();
-    @ManyToOne
+    @OneToOne
     private AppTable appTable;
 
 }

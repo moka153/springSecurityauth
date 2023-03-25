@@ -36,11 +36,11 @@ public class RoomServiceImpl implements RoomService{
     }
 
     @Override
-    public List<RoomDto> getRooms() {
+    public List<Room> getRooms() {
         List<Room> rooms = roomRepository.findAll();
         List<RoomDto> roomDtos = rooms.stream().map(room -> roomMapper.fromRoom(room))
                 .collect(Collectors.toList());
-        return roomDtos;
+        return rooms;
     }
 
     @Override

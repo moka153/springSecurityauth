@@ -14,6 +14,7 @@ public class AppTableDto {
     private String tableNumber;
     private int customerNumber;
     private boolean available;
-    private RoomDto roomDto;
+    private Room room;
     private AppUser appUser;
+    private Sale sale;
 }

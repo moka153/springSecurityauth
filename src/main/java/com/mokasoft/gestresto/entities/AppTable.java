@@ -22,6 +22,6 @@ public class AppTable {
     private AppUser appUser;
     @ManyToOne
     private Room room;
-    @OneToMany(mappedBy = "appTable")
-    private List<Sale> sales;
+    @OneToOne
+    private Sale sale;
 }

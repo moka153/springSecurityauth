@@ -1,10 +1,7 @@
 package com.mokasoft.gestresto;
 
 import com.mokasoft.gestresto.dtos.*;
-import com.mokasoft.gestresto.entities.AppRole;
-import com.mokasoft.gestresto.entities.AppTable;
-import com.mokasoft.gestresto.entities.AppUser;
-import com.mokasoft.gestresto.entities.Category;
+import com.mokasoft.gestresto.entities.*;
 import com.mokasoft.gestresto.enums.ProductType;
 import com.mokasoft.gestresto.enums.SaleType;
 import com.mokasoft.gestresto.mappers.ProductMapper;
@@ -76,15 +73,15 @@ public class GestRestoApplication {
             roomService.saveRoom(roomDto);
             roomService.saveRoom(roomDto2);
 
-            List<RoomDto> roomDtos = roomService.getRooms();
+            List<Room> roomDtos = roomService.getRooms();
 
-            for (RoomDto r : roomDtos) {
+            for (Room r : roomDtos) {
 
                 AppTableDto appTableDto = new AppTableDto();
                 appTableDto.setTableNumber("table " + r.getRoomId());
                 appTableDto.setAvailable(true);
                 appTableDto.setCustomerNumber(0);
-                appTableDto.setRoomDto(r);
+                appTableDto.setRoom(r);
                 roomService.saveTable(appTableDto);
 
             }
