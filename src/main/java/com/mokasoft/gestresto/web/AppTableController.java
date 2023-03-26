@@ -1,9 +1,11 @@
 package com.mokasoft.gestresto.web;
 
 import com.mokasoft.gestresto.dtos.AppTableDto;
+import com.mokasoft.gestresto.entities.AppTable;
 import com.mokasoft.gestresto.entities.AppUser;
 import com.mokasoft.gestresto.services.AppTableService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +22,7 @@ public class AppTableController {
     }
 
     @GetMapping
-    public List<AppTableDto> getAllTables(){
+    public List<AppTable> getAllTables(){
         return appTableService.getTables();
     }
 

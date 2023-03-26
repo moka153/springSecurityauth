@@ -32,12 +32,12 @@ public class AppTableServiceImpl implements AppTableService {
     }
 
     @Override
-    public List<AppTableDto> getTables() {
+    public List<AppTable> getTables() {
         List<AppTable> appTables = appTableRepository.findAll();
-        List<AppTableDto> appTableDtos = appTables.stream()
-                .map(appTable -> roomTableMapper.fromAppTable(appTable))
-                .collect(Collectors.toList());
-        return appTableDtos;
+        //List<AppTableDto> appTableDtos = appTables.stream()
+                //.map(appTable -> roomTableMapper.fromAppTable(appTable))
+                //.collect(Collectors.toList());
+        return appTables;
     }
 
     @Override

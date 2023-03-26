@@ -144,7 +144,7 @@ public class GestRestoApplication {
             }
 
 
-            roomService.affectWaiterToTable("waiter1", "table 1");
+            //roomService.affectWaiterToTable("waiter1", "table 1");
             roomService.affectWaiterToTable("waiter1", "table 2");
 
 

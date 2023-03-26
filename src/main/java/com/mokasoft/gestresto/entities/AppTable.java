@@ -21,7 +21,9 @@ public class AppTable {
     @JsonIgnore
     private AppUser appUser;
     @ManyToOne
+    @JsonIgnore
     private Room room;
     @OneToOne
+    @JsonIgnore
     private Sale sale;
 }
