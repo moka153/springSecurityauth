@@ -55,6 +55,7 @@ public class AppTableServiceImpl implements AppTableService {
 
     public AppTableDto appTableToAppTableDto(AppTable appTable){
         AppTableDto appTableDto = new AppTableDto();
+        appTableDto.setTableId(appTable.getTableId());
         appTableDto.setTableNumber(appTable.getTableNumber());
         appTableDto.setCustomerNumber(appTable.getCustomerNumber());
         appTableDto.setAvailable(appTable.isAvailable());
