@@ -3,6 +3,7 @@ package com.mokasoft.gestresto.services;
 import com.mokasoft.gestresto.dtos.AppTableDto;
 import com.mokasoft.gestresto.entities.AppTable;
 import com.mokasoft.gestresto.entities.AppUser;
+import com.mokasoft.gestresto.entities.Sale;
 import com.mokasoft.gestresto.mappers.RoomTableMapper;
 import com.mokasoft.gestresto.repositories.AppTableRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class AppTableServiceImpl implements AppTableService {
     @Override
     public AppTableDto updateTable(AppTableDto appTableDto) {
         AppTable appTable =  roomTableMapper.fromAppTableDto(appTableDto);
-        appTable.setTableId(appTableDto.getTableId());
+        //appTable.setTableId(appTableDto.getTableId());
         AppTable savedTable = appTableRepository.save(appTable);
         return roomTableMapper.fromAppTable(savedTable);
     }
@@ -43,9 +44,28 @@ public class AppTableServiceImpl implements AppTableService {
     @Override
     public List<AppTableDto> getTablesByUser(AppUser appUser) {
         List<AppTable> appTables = appTableRepository.findByAppUser(appUser);
-        List<AppTableDto> appTableDtos = appTables.stream()
+        /*List<AppTableDto> appTableDtos = appTables.stream()
                 .map(appTable -> roomTableMapper.fromAppTable(appTable))
+                .collect(Collectors.toList());*/
+        List<AppTableDto> appTableDtos = appTables.stream()
+                .map(appTable -> appTableToAppTableDto(appTable))
                 .collect(Collectors.toList());
         return appTableDtos;
+    }
+
+    public AppTableDto appTableToAppTableDto(AppTable appTable){
+        AppTableDto appTableDto = new AppTableDto();
+        appTableDto.setTableNumber(appTable.getTableNumber());
+        appTableDto.setCustomerNumber(appTable.getCustomerNumber());
+        appTableDto.setAvailable(appTable.isAvailable());
+        //Long saleId = appTable.getSale().getSaleId();
+        Sale s = appTable.getSale();
+        if(s != null){
+            appTableDto.setSaleId(s.getSaleId());
+        }
+
+        //System.out.println(s.getSaleId());
+
+        return appTableDto;
     }
 }

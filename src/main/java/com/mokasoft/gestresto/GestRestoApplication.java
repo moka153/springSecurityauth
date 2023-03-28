@@ -75,17 +75,52 @@ public class GestRestoApplication {
 
             List<Room> roomDtos = roomService.getRooms();
 
-            for (Room r : roomDtos) {
+            /*for (Room r : roomDtos) {
 
                 AppTableDto appTableDto = new AppTableDto();
                 appTableDto.setTableNumber("table " + r.getRoomId());
                 appTableDto.setAvailable(true);
                 appTableDto.setCustomerNumber(0);
-                appTableDto.setRoom(r);
+                appTableDto.setSaleId(1l);
+                //appTableDto.setRoom(r);
                 roomService.saveTable(appTableDto);
 
+            }*/
+
+            for(int i = 0 ; i < 6 ; i ++){
+                AppTableDto appTableDto = new AppTableDto();
+                appTableDto.setTableNumber("table " + i);
+                appTableDto.setAvailable(true);
+                appTableDto.setCustomerNumber(0);
+                appTableDto.setSaleId(null);
+                //appTableDto.setRoom(r);
+                roomService.saveTable(appTableDto);
             }
 
+           /*AppTableDto appTableDto = new AppTableDto();
+            appTableDto.setTableNumber("table 3");
+            appTableDto.setAvailable(true);
+            appTableDto.setCustomerNumber(0);
+            appTableDto.setSaleId(null);
+            AppTableDto appTableDto2 = new AppTableDto();
+            appTableDto2.setTableNumber("table 4");
+            appTableDto2.setAvailable(true);
+            appTableDto2.setCustomerNumber(0);
+            appTableDto2.setSaleId(1l);
+            roomService.saveTable(appTableDto2);
+            AppTableDto appTableDto3 = new AppTableDto();
+            appTableDto3.setTableNumber("table 5");
+            appTableDto3.setAvailable(false);
+            appTableDto3.setCustomerNumber(0);
+            appTableDto3.setSaleId(1l);
+            roomService.saveTable(appTableDto3);
+
+            AppTableDto appTableDto4 = new AppTableDto();
+            appTableDto4.setTableNumber("table 6");
+            appTableDto4.setAvailable(true);
+            appTableDto4.setCustomerNumber(0);
+            appTableDto4.setSaleId(null);
+            roomService.saveTable(appTableDto4);*/
             //creation de quelques catégorie pour le teste
             CategoryDto categoryDto = new CategoryDto();
             categoryDto.setName("Sandwich");
@@ -143,10 +178,15 @@ public class GestRestoApplication {
 
             }
 
-
-            //roomService.affectWaiterToTable("waiter1", "table 1");
+            for(int i = 0 ; i < 6 ; i++){
+                roomService.affectWaiterToTable("waiter1", "table " + i);
+            }
+            /*roomService.affectWaiterToTable("waiter1", "table 1");
             roomService.affectWaiterToTable("waiter1", "table 2");
-
+            roomService.affectWaiterToTable("waiter1", "table 3");
+            roomService.affectWaiterToTable("waiter1", "table 4");
+            roomService.affectWaiterToTable("waiter1", "table 5");
+            roomService.affectWaiterToTable("waiter1", "table 6");*/
 
 
 

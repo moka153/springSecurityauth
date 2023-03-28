@@ -55,13 +55,13 @@ public class SaleServiceImp implements SaleService {
             }
             savedSale.setSaleDetails(saleDetails);
             AppTableDto appTableDto = new AppTableDto();
-            appTableDto.setTableId(savedSale.getAppTable().getTableId());
+            //appTableDto.setTableId(savedSale.getAppTable().getTableId());
             appTableDto.setCustomerNumber(savedSale.getAppTable().getCustomerNumber());
             appTableDto.setAvailable(false);
             appTableDto.setTableNumber(savedSale.getAppTable().getTableNumber());
-            appTableDto.setRoom(savedSale.getAppTable().getRoom());
-            appTableDto.setAppUser(savedSale.getAppUser());
-            appTableDto.setSale(savedSale);
+            //appTableDto.setRoom(savedSale.getAppTable().getRoom());
+            //appTableDto.setAppUser(savedSale.getAppUser());
+            //appTableDto.setSale(savedSale);
             appTableService.updateTable(appTableDto);
         }
         return saleMapper.fromSale(savedSale);
