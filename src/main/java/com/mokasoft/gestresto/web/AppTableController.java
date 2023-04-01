@@ -31,8 +31,8 @@ public class AppTableController {
         return appTableService.getTablesByUser(appUser);
     }
 
-    @PutMapping
+    /*@PutMapping
     public AppTableDto updateTable(@RequestBody AppTableDto appTableDto){
         return appTableService.updateTable(appTableDto);
-    }
+    }*/
 }

@@ -28,6 +28,9 @@ public class AppTableServiceImpl implements AppTableService {
     public AppTableDto updateTable(AppTableDto appTableDto) {
         AppTable appTable =  roomTableMapper.fromAppTableDto(appTableDto);
         //appTable.setTableId(appTableDto.getTableId());
+        Sale s = new Sale();
+        s.setSaleId(appTableDto.getSaleId());
+        appTable.setSale(s);
         AppTable savedTable = appTableRepository.save(appTable);
         return roomTableMapper.fromAppTable(savedTable);
     }

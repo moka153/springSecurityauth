@@ -196,20 +196,20 @@ public class GestRestoApplication {
                 System.out.println(c.getName() + " " + c.getPicture());
             }
 
-            SaleDto saleDto = new SaleDto();
-            saleDto.setSaleDate(new Date());
+            /*SaleRequest saleDto = new SaleRequest();
+            //saleDto.setSaleDate(new Date());
             //AppTableDto appTableDto = new AppTableDto();
             //appTableDto.setTableId(1l);
             //appTableDto.setTableNumber("table 1");
-            AppTable appTable = new AppTable();
+            AppTableDto appTable = new AppTableDto();
             appTable.setTableId(1l);
             appTable.setTableNumber("table 1");
-            saleDto.setAppTable(appTable);
+            saleDto.setAppTableDto(appTable);
             saleDto.setType(SaleType.EATIN);
             AppUser appUserr = new AppUser();
             appUserr.setId(1l);
-            saleDto.setAppUser(appUserr);
-            saleService.newSale(saleDto);
+            saleDto.setAppUser(1l);
+            saleService.newSale(saleDto);*/
             List<ProductDto> productDtos = productService.getAllProducts();
             for (ProductDto p : productDtos) {
                 OptionDto optionDto = new OptionDto();

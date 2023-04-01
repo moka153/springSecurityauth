@@ -4,6 +4,7 @@ import com.mokasoft.gestresto.dtos.AppTableDto;
 import com.mokasoft.gestresto.dtos.RoomDto;
 import com.mokasoft.gestresto.entities.AppTable;
 import com.mokasoft.gestresto.entities.Room;
+import com.mokasoft.gestresto.entities.Sale;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,7 @@ public class RoomTableMapper {
         AppTable appTable = new AppTable();
         BeanUtils.copyProperties(appTableDto,appTable);
         //appTable.setRoom(fromRoomDto(appTableDto.getRoom()));
+
         return appTable;
     }
 }

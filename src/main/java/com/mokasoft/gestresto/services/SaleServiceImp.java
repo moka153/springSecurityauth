@@ -1,10 +1,11 @@
 package com.mokasoft.gestresto.services;
 
-import com.mokasoft.gestresto.dtos.AppTableDto;
-import com.mokasoft.gestresto.dtos.SaleDto;
+import com.mokasoft.gestresto.dtos.*;
+import com.mokasoft.gestresto.entities.AppTable;
 import com.mokasoft.gestresto.entities.Sale;
 import com.mokasoft.gestresto.entities.SaleDetail;
 import com.mokasoft.gestresto.mappers.SaleMapper;
+import com.mokasoft.gestresto.repositories.AppTableRepository;
 import com.mokasoft.gestresto.repositories.SaleRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,60 +26,63 @@ public class SaleServiceImp implements SaleService {
     private final SaleMapper saleMapper;
     private final SaleDetailService saleDetailService;
 
+    private final AppTableRepository appTableRepository;
     private final AppTableService appTableService;
 
+
     @Override
-    public SaleDto newSale(SaleDto saleDto) {
-        List<SaleDetail> saleDetailList = saleDto.getSaleDetails();
+    public SaleResponse newSale(SaleRequest saleRequest) {
+        List<SaleDetailRequest> saleDetailList = saleRequest.getSaleDetailRequestList();
         BigDecimal amount = BigDecimal.ZERO;
         BigDecimal benefit = BigDecimal.ZERO;
-        for(SaleDetail saleDetail : saleDetailList){
-            amount = amount.add(saleDetail.getUnitPrice().multiply(saleDetail.getQuantity()));
-            BigDecimal benefitPerProduct = (saleDetail.getUnitPrice()
-                    .subtract(saleDetail.getProduct().getCostPrice())).multiply(saleDetail.getQuantity());
+        for(SaleDetailRequest sdr : saleDetailList){
+            amount = amount.add(sdr.getUnitPrice().multiply(sdr.getQuantity()));
+            BigDecimal benefitPerProduct = (sdr.getUnitPrice()
+                    .subtract(sdr.getCostPrice())).multiply(sdr.getQuantity());
             benefit = benefit.add(benefitPerProduct);
         }
-        Sale sale = saleMapper.fromSaleDto(saleDto);
+        Sale sale = saleMapper.saleRequestToSale(saleRequest);
+        sale.setSaleDate(new Date());
         sale.setAmount(amount);
         sale.setBenefit(benefit);
         Sale savedSale = saleRepository.save(sale);
         if(savedSale.getSaleId() != null){
-
-            List<SaleDetail> saleDetails = savedSale.getSaleDetails();
+            List<SaleDetail> saleDetails = sale.getSaleDetails();
             for(SaleDetail s : saleDetails){
-                SaleDetail saleDetail = new SaleDetail();
-                saleDetail.setSale(savedSale);
-                saleDetail.setUnitPrice(s.getUnitPrice());
-                saleDetail.setQuantity(s.getQuantity());
-                saleDetail.setProduct(s.getProduct());
-
-                saleDetailService.saveSaleDetail(saleDetail);
+                s.setSale(sale);
+                saleDetailService.saveSaleDetail(s);
             }
-            savedSale.setSaleDetails(saleDetails);
-            AppTableDto appTableDto = new AppTableDto();
-            //appTableDto.setTableId(savedSale.getAppTable().getTableId());
-            appTableDto.setCustomerNumber(savedSale.getAppTable().getCustomerNumber());
-            appTableDto.setAvailable(false);
-            appTableDto.setTableNumber(savedSale.getAppTable().getTableNumber());
-            //appTableDto.setRoom(savedSale.getAppTable().getRoom());
-            //appTableDto.setAppUser(savedSale.getAppUser());
-            //appTableDto.setSale(savedSale);
-            appTableService.updateTable(appTableDto);
+            appTableRepository.availableTable(saleRequest.getAppTableDto().getTableId(),
+                    false,saleRequest.getAppTableDto().getCustomerNumber(),
+                    savedSale);
         }
-        return saleMapper.fromSale(savedSale);
+        return saleMapper.saleToSaleResponse(sale);
     }
 
     @Override
-    public List<SaleDto> getSales() {
+    public List<SaleResponse> getSales() {
         List<Sale> sales = saleRepository.findAll();
-        List<SaleDto> saleDtos = sales.stream().map(sale -> saleMapper.fromSale(sale)).collect(Collectors.toList());
-        return saleDtos;
+        List<SaleResponse> saleResponses = sales.stream()
+                .map(sale -> saleMapper.saleToSaleResponse(sale)).collect(Collectors.toList());
+
+
+
+        return saleResponses;
     }
 
-    @Override
+    /*@Override
     public SaleDto getSalePerTable(Long tableId) {
         Sale sale = saleRepository.findByAppTable(tableId);
         SaleDto saleDto = saleMapper.fromSale(sale);
         return saleDto;
+    }*/
+
+    @Override
+    public SaleResponse getSalePerTable(Long tableId) {
+        Sale sale = saleRepository.findByAppTable(tableId);
+        SaleResponse saleResponse = saleMapper.saleToSaleResponse(sale);
+
+        return saleResponse;
     }
+
 }

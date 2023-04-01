@@ -12,4 +12,5 @@ public interface AppTableService {
     AppTableDto updateTable(AppTableDto appTableDto);
     List<AppTable> getTables();
     List<AppTableDto> getTablesByUser(AppUser appUser);
+
 }
