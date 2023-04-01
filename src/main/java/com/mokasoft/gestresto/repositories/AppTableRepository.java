@@ -1,6 +1,5 @@
 package com.mokasoft.gestresto.repositories;
 
-import com.mokasoft.gestresto.dtos.AppTableDto;
 import com.mokasoft.gestresto.entities.AppTable;
 import com.mokasoft.gestresto.entities.AppUser;
 import com.mokasoft.gestresto.entities.Sale;
