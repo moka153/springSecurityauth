@@ -25,10 +25,6 @@ public class SaleController {
         return saleService.getSales();
     }
 
-    /*@GetMapping("/tableId")
-    public SaleDto getSalePerTable(@PathVariable Long tableId){
-        return saleService.getSalePerTable(tableId);
-    }*/
 
     @GetMapping("/tableId")
     public SaleResponse getSalePerTable(@PathVariable Long tableId){

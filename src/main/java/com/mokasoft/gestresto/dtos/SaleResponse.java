@@ -1,5 +1,6 @@
 package com.mokasoft.gestresto.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mokasoft.gestresto.enums.SaleType;
 import lombok.Data;
 

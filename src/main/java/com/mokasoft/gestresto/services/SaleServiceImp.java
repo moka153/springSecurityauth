@@ -53,8 +53,7 @@ public class SaleServiceImp implements SaleService {
                 saleDetailService.saveSaleDetail(s);
             }
             appTableRepository.availableTable(saleRequest.getAppTableDto().getTableId(),
-                    false,saleRequest.getAppTableDto().getCustomerNumber(),
-                    savedSale);
+                    false,saleRequest.getAppTableDto().getCustomerNumber(),savedSale);
         }
         return saleMapper.saleToSaleResponse(sale);
     }
@@ -64,19 +63,8 @@ public class SaleServiceImp implements SaleService {
         List<Sale> sales = saleRepository.findAll();
         List<SaleResponse> saleResponses = sales.stream()
                 .map(sale -> saleMapper.saleToSaleResponse(sale)).collect(Collectors.toList());
-
-
-
         return saleResponses;
     }
-
-    /*@Override
-    public SaleDto getSalePerTable(Long tableId) {
-        Sale sale = saleRepository.findByAppTable(tableId);
-        SaleDto saleDto = saleMapper.fromSale(sale);
-        return saleDto;
-    }*/
-
     @Override
     public SaleResponse getSalePerTable(Long tableId) {
         Sale sale = saleRepository.findByAppTable(tableId);
