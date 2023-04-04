@@ -15,5 +15,5 @@ public class SaleResponse {
     private SaleType type;
     private BigDecimal amount;
     private AppTableDto appTableDto;
-    private List<SaleDetailResponse> saleDetailResponses;
+    //private List<SaleDetailResponse> saleDetailResponses;
 }

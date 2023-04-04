@@ -8,5 +8,8 @@ import java.util.List;
 
 public interface SaleDetailService {
     SaleDetail saveSaleDetail(SaleDetail saleDetail);
+
     List<SaleDetailResponse> getSaleDetail(Sale sale);
+
+
 }

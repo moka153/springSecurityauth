@@ -45,10 +45,10 @@ public class SaleMapper {
         appTableDto.setTableNumber(sale.getAppTable().getTableNumber());
         appTableDto.setCustomerNumber(sale.getAppTable().getCustomerNumber());
         saleResponse.setAppTableDto(appTableDto);
-        List<SaleDetailResponse> saleDetailResponse = sale.getSaleDetails().stream()
+       /* List<SaleDetailResponse> saleDetailResponse = sale.getSaleDetails().stream()
                 .map(sd -> saleDetailToSaleDetailResponse(sd))
                 .collect(Collectors.toList());
-        saleResponse.setSaleDetailResponses(saleDetailResponse);
+        saleResponse.setSaleDetailResponses(saleDetailResponse);*/
 
         return saleResponse;
     }

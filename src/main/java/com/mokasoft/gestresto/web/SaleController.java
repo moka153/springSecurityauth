@@ -3,11 +3,16 @@ package com.mokasoft.gestresto.web;
 import com.mokasoft.gestresto.dtos.SaleDto;
 import com.mokasoft.gestresto.dtos.SaleRequest;
 import com.mokasoft.gestresto.dtos.SaleResponse;
+import com.mokasoft.gestresto.responses.ResponseHandler;
 import com.mokasoft.gestresto.services.SaleService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -16,8 +21,10 @@ import java.util.List;
 public class SaleController {
     private final SaleService saleService;
     @PostMapping
-    public SaleResponse newSale(@RequestBody SaleRequest saleRequest){
-        return saleService.newSale(saleRequest);
+    public ResponseEntity<Object> newSale(@RequestBody SaleRequest saleRequest){
+        //return saleService.newSale(saleRequest);
+        return ResponseHandler.responseBuilder("commande passée",HttpStatus.CREATED
+                ,saleService.newSale(saleRequest));
     }
 
     @GetMapping
