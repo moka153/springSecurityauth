@@ -14,6 +14,6 @@ public class SaleResponse {
     private Date saleDate;
     private SaleType type;
     private BigDecimal amount;
-    private AppTableDto appTableDto;
+    //private AppTableDto appTableDto;
     //private List<SaleDetailResponse> saleDetailResponses;
 }
