@@ -1,40 +1,36 @@
 package com.mokasoft.gestresto.web;
 
-import com.mokasoft.gestresto.dtos.SaleDto;
 import com.mokasoft.gestresto.dtos.SaleRequest;
-import com.mokasoft.gestresto.dtos.SaleResponse;
 import com.mokasoft.gestresto.responses.ResponseHandler;
 import com.mokasoft.gestresto.services.SaleService;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-
 @RestController
-@RequestMapping("/sales")
-@RequiredArgsConstructor
+@RequestMapping("/api/sales")
+@AllArgsConstructor
 public class SaleController {
     private final SaleService saleService;
+
     @PostMapping
-    public ResponseEntity<Object> newSale(@RequestBody SaleRequest saleRequest){
-        //return saleService.newSale(saleRequest);
-        return ResponseHandler.responseBuilder("commande passée",HttpStatus.CREATED
-                ,saleService.newSale(saleRequest));
+    public ResponseEntity<Object> saveSale(@RequestBody SaleRequest saleRequest){
+        return ResponseHandler.responseBuilder("sale created", HttpStatus.CREATED,
+                saleService.saveSale(saleRequest));
     }
-
+    @DeleteMapping("/{saleId}")
+    public void deleteSale(@PathVariable Long saleId){
+        saleService.deleteSale(saleId);
+    }
     @GetMapping
-    public List<SaleResponse> getAllSales(){
-        return saleService.getSales();
+    public ResponseEntity<Object> getAllSales(){
+        return ResponseHandler.responseBuilder("sales found",HttpStatus.FOUND,
+                saleService.getAllSales());
     }
-
-
-    @GetMapping("/tableId")
-    public SaleResponse getSalePerTable(@PathVariable Long tableId){
-        return saleService.getSalePerTable(tableId);
+    @PutMapping("/{saleId}")
+    public ResponseEntity<Object> updateSale(@RequestBody SaleRequest saleRequest ,@PathVariable Long saleId){
+        return ResponseHandler.responseBuilder("sale updated", HttpStatus.OK,
+                saleService.updateSale(saleRequest,saleId));
     }
 }
