@@ -8,12 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mokasoft.gestresto.entities.AppRole;
 import com.mokasoft.gestresto.entities.AppUser;
 import com.mokasoft.gestresto.services.AccountService;
-import lombok.Data;
+import com.mokasoft.gestresto.utils.RoleUserForm;
 import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -96,8 +92,3 @@ public class AccountRestController {
 
 }
 
-@Data
-class RoleUserForm{
-    private String username;
-    private String roleName;
-}

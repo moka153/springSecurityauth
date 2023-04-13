@@ -1,35 +1,44 @@
 package com.mokasoft.gestresto.web;
 
-import com.mokasoft.gestresto.entities.AppTable;
-import com.mokasoft.gestresto.entities.AppUser;
-import com.mokasoft.gestresto.repositories.AppTableRepository;
-import com.mokasoft.gestresto.repositories.AppUserRepository;
+import com.mokasoft.gestresto.dtos.RoomRequest;
+import com.mokasoft.gestresto.responses.ResponseHandler;
 import com.mokasoft.gestresto.services.RoomService;
-import com.mokasoft.gestresto.utils.WaiterTableForm;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.validation.Valid;
 
 @RestController
+@RequestMapping("/api/rooms")
 @AllArgsConstructor
 public class RoomController {
-    private RoomService roomService;
+    private final RoomService roomService1;
 
-    private AppTableRepository appTableRepository;
-    private AppUserRepository appUserRepository;
-    @PostMapping(path = ("/affectTableToUser"))
-    public void affectWaiterToUser(@RequestBody WaiterTableForm waiterTableForm){
-        roomService.affectWaiterToTable(waiterTableForm.getWaiterName(),waiterTableForm.getTabelName());
+    @PostMapping
+    public ResponseEntity<Object> saveRoom(@Valid @RequestBody RoomRequest roomRequest){
+        return ResponseHandler.responseBuilder("Room created", HttpStatus.CREATED,
+                roomService1.saveRoom(roomRequest));
     }
-    @GetMapping("/usersTable/{id}")
-    public List<AppTable> findByWaiter(@PathVariable Long id){
-        AppUser appUser = appUserRepository.findById(id).orElse(null);
-
-        return roomService.getUsersTable(appUser);
+    @PutMapping("/{roomId}")
+    public ResponseEntity<Object> updateRoom(@Valid @RequestBody RoomRequest roomRequest,
+                                             @PathVariable Long roomId){
+        return ResponseHandler.responseBuilder("Room updated", HttpStatus.OK,
+                roomService1.updateRoom(roomRequest,roomId));
     }
-
-
-
-
+    @DeleteMapping("{roomId}")
+    public void deleteRoom(@PathVariable Long roomId){
+        roomService1.deleteRoom(roomId);
+    }
+    @GetMapping
+    public ResponseEntity<Object> getAllRooms(){
+        return ResponseHandler.responseBuilder("rooms found",HttpStatus.FOUND,
+                roomService1.getAllRooms());
+    }
+    @GetMapping("/{roomId}")
+    public ResponseEntity<Object> getRoom(@PathVariable Long roomId){
+        return ResponseHandler.responseBuilder("room found",HttpStatus.FOUND,
+                roomService1.getRoom(roomId));
+    }
 }

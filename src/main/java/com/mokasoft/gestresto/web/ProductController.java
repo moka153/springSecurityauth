@@ -1,83 +1,52 @@
 package com.mokasoft.gestresto.web;
 
-import com.mokasoft.gestresto.dtos.CategoryDto;
-import com.mokasoft.gestresto.dtos.OptionDto;
-import com.mokasoft.gestresto.dtos.ProductDto;
+import com.mokasoft.gestresto.dtos.ProductRequest;
 import com.mokasoft.gestresto.entities.Category;
-import com.mokasoft.gestresto.entities.Product;
-import com.mokasoft.gestresto.mappers.ProductMapper;
-import com.mokasoft.gestresto.repositories.CategoryRepository;
-import com.mokasoft.gestresto.repositories.ProductRepository;
+import com.mokasoft.gestresto.responses.ResponseHandler;
 import com.mokasoft.gestresto.services.ProductService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
-import java.util.List;
+import javax.validation.Valid;
 
 @RestController
-@AllArgsConstructor
+@RequestMapping("/api/products")
+@RequiredArgsConstructor
 public class ProductController {
-    private ProductService productService;
-    private CategoryRepository categoryRepository;
+    private final ProductService productService;
 
-    private ProductRepository productRepository;
-
-    private ProductMapper productMapper;
-
-    //categories controller
-    @GetMapping(path = "/products/categories")
-    public List<CategoryDto> categories() {
-        return productService.getAllCategories();
+    @PostMapping
+    public ResponseEntity<Object> saveProduct(@Valid @RequestBody ProductRequest productRequest){
+        return ResponseHandler.responseBuilder("product created", HttpStatus.CREATED,
+                productService.saveProduct(productRequest));
+    }
+    @PutMapping("/{productId}")
+    public ResponseEntity<Object> updateProduct(@Valid @RequestBody ProductRequest productRequest,
+                                                @PathVariable Long productId){
+        return ResponseHandler.responseBuilder("product updated", HttpStatus.OK,
+                productService.updateProduct(productRequest,productId));
+    }
+    @DeleteMapping("/{productId}")
+    public void deleteProduct(@PathVariable Long productId){
+        productService.deleteProduct(productId);
+    }
+    @GetMapping
+    public ResponseEntity<Object> getAllProducts(){
+        return ResponseHandler.responseBuilder("products found", HttpStatus.FOUND,
+                productService.getAllProducts());
+    }
+    @GetMapping("/{productId}")
+    public ResponseEntity<Object> getProductById(@PathVariable Long productId){
+        return ResponseHandler.responseBuilder("product found", HttpStatus.FOUND,
+                productService.getProductById(productId));
     }
 
-    @PostMapping(path = "/products/categories")
-    public CategoryDto saveCategory(@RequestBody CategoryDto categoryDto) {
-        return productService.saveCategory(categoryDto);
+    @GetMapping("/category/{category}")
+    public ResponseEntity<Object> getProductByCategory(@PathVariable Category category){
+        return ResponseHandler.responseBuilder("products found", HttpStatus.FOUND,
+                productService.getProductsByCategory(category));
     }
 
-    @PutMapping(path = "/products/categories/{id}")
-    public CategoryDto updateCategory(@PathVariable Long id, @RequestBody CategoryDto categoryDto) {
-        categoryDto.setCategoryId(id);
-        return productService.saveCategory(categoryDto);
-    }
-
-
-    @DeleteMapping("/products/categories/{id}")
-    public void deleteCategory(@PathVariable Long id) {
-        productService.deleteCategory(id);
-    }
-
-    //products controller
-    @GetMapping(path = "/products")
-    public List<ProductDto> products() {
-        return productService.getAllProducts();
-    }
-
-    @PostMapping(path = "/products")
-    public ProductDto saveProduct(@RequestBody ProductDto productDto) {
-        return productService.saveProduct(productDto);
-    }
-
-    @PutMapping(path = "/products/{id}")
-    public ProductDto updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto) {
-        productDto.setProductId(id);
-        return productService.saveProduct(productDto);
-    }
-
-    @DeleteMapping("/products/{id}")
-    public void deleteProduct(@PathVariable Long id) {
-        productService.deleteProduct(id);
-    }
-    @GetMapping("/productsByCategory/{idCategory}")
-    public List<ProductDto> getProductByCategory(@PathVariable Long idCategory){
-        Category category = categoryRepository.findById(idCategory).orElse(null);
-        return productService.getProductByCategory(category);
-    }
-
-    @GetMapping("/productsOption/{idProduct}")
-    public List<OptionDto> getProductOptions(@PathVariable Long idProduct){
-        Product product = productRepository.findById(idProduct).orElse(null);
-        return productService.getProductOptions(productMapper.fromProduct(product));
-    }
 }

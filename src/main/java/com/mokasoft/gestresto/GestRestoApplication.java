@@ -1,16 +1,8 @@
 package com.mokasoft.gestresto;
 
 import com.mokasoft.gestresto.dtos.*;
-import com.mokasoft.gestresto.entities.*;
-import com.mokasoft.gestresto.enums.ProductType;
-import com.mokasoft.gestresto.enums.SaleType;
-import com.mokasoft.gestresto.mappers.ProductMapper;
-import com.mokasoft.gestresto.mappers.RoomTableMapper;
-import com.mokasoft.gestresto.mappers.SaleMapper;
-import com.mokasoft.gestresto.services.AccountService;
-import com.mokasoft.gestresto.services.ProductService;
-import com.mokasoft.gestresto.services.RoomService;
-import com.mokasoft.gestresto.services.SaleService;
+import com.mokasoft.gestresto.mappers.AppRoleMapper;
+import com.mokasoft.gestresto.services.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,11 +11,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 @SpringBootApplication
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = false)
@@ -37,8 +25,33 @@ public class GestRestoApplication {
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
     @Bean
+    CommandLineRunner start(AppRoleService appRoleService,
+                            AppRoleMapper appRoleMapper,
+                            RoomService roomService){
+        return args -> {
+            //initialisation de la table roles
+            List<AppRoleResponse> appRoleResponses = appRoleService.getAllAppRoles();
+            if(appRoleResponses.isEmpty()){
+                AppRoleRequest appRoleRequest = new AppRoleRequest(null,"ADMIN");
+                AppRoleRequest appRoleRequest1 = new AppRoleRequest(null,"WAITER");
+                AppRoleRequest appRoleRequest2 = new AppRoleRequest(null,"CASHIER");
+                appRoleService.saveRole(appRoleRequest);
+                appRoleService.saveRole(appRoleRequest1);
+                appRoleService.saveRole(appRoleRequest2);
+            }
+
+            //creation d'une salle s'il y'en aucune
+            List<RoomResponse> roomResponses = roomService.getAllRooms();
+            if(roomResponses.isEmpty()){
+                RoomRequest roomRequest = new RoomRequest("salle 01");
+                roomService.saveRoom(roomRequest);
+            }
+
+        };
+    }
+
+    /*@Bean
     CommandLineRunner start(AccountService accountService, RoomService roomService,
                             RoomTableMapper roomMapper, ProductService productService,
                             ProductMapper productMapper, SaleService saleService,
@@ -75,7 +88,7 @@ public class GestRestoApplication {
 
             List<Room> roomDtos = roomService.getRooms();
 
-            /*for (Room r : roomDtos) {
+            *//*for (Room r : roomDtos) {
 
                 AppTableDto appTableDto = new AppTableDto();
                 appTableDto.setTableNumber("table " + r.getRoomId());
@@ -85,7 +98,7 @@ public class GestRestoApplication {
                 //appTableDto.setRoom(r);
                 roomService.saveTable(appTableDto);
 
-            }*/
+            }*//*
 
             for(int i = 0 ; i < 6 ; i ++){
                 AppTableDto appTableDto = new AppTableDto();
@@ -97,7 +110,7 @@ public class GestRestoApplication {
                 roomService.saveTable(appTableDto);
             }
 
-           /*AppTableDto appTableDto = new AppTableDto();
+           *//*AppTableDto appTableDto = new AppTableDto();
             appTableDto.setTableNumber("table 3");
             appTableDto.setAvailable(true);
             appTableDto.setCustomerNumber(0);
@@ -120,7 +133,8 @@ public class GestRestoApplication {
             appTableDto4.setAvailable(true);
             appTableDto4.setCustomerNumber(0);
             appTableDto4.setSaleId(null);
-            roomService.saveTable(appTableDto4);*/
+            roomService.saveTable(appTableDto4);*//*
+
             //creation de quelques catégorie pour le teste
             CategoryDto categoryDto = new CategoryDto();
             categoryDto.setName("Sandwich");
@@ -181,12 +195,12 @@ public class GestRestoApplication {
             for(int i = 0 ; i < 6 ; i++){
                 roomService.affectWaiterToTable("waiter1", "table " + i);
             }
-            /*roomService.affectWaiterToTable("waiter1", "table 1");
+            *//*roomService.affectWaiterToTable("waiter1", "table 1");
             roomService.affectWaiterToTable("waiter1", "table 2");
             roomService.affectWaiterToTable("waiter1", "table 3");
             roomService.affectWaiterToTable("waiter1", "table 4");
             roomService.affectWaiterToTable("waiter1", "table 5");
-            roomService.affectWaiterToTable("waiter1", "table 6");*/
+            roomService.affectWaiterToTable("waiter1", "table 6");*//*
 
 
 
@@ -196,7 +210,7 @@ public class GestRestoApplication {
                 System.out.println(c.getName() + " " + c.getPicture());
             }
 
-            /*SaleRequest saleDto = new SaleRequest();
+            *//*SaleRequest saleDto = new SaleRequest();
             //saleDto.setSaleDate(new Date());
             //AppTableDto appTableDto = new AppTableDto();
             //appTableDto.setTableId(1l);
@@ -209,7 +223,7 @@ public class GestRestoApplication {
             AppUser appUserr = new AppUser();
             appUserr.setId(1l);
             saleDto.setAppUser(1l);
-            saleService.newSale(saleDto);*/
+            saleService.newSale(saleDto);*//*
             List<ProductDto> productDtos = productService.getAllProducts();
             for (ProductDto p : productDtos) {
                 OptionDto optionDto = new OptionDto();
@@ -247,5 +261,5 @@ public class GestRestoApplication {
 
 
 
-    }
+    }*/
 }

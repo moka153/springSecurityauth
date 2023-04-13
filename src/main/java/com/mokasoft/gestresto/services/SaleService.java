@@ -1,16 +1,16 @@
 package com.mokasoft.gestresto.services;
 
-import com.mokasoft.gestresto.dtos.SaleDto;
 import com.mokasoft.gestresto.dtos.SaleRequest;
 import com.mokasoft.gestresto.dtos.SaleResponse;
-import com.mokasoft.gestresto.entities.Sale;
+import com.mokasoft.gestresto.entities.AppTable;
 
+import java.util.Date;
 import java.util.List;
 
 public interface SaleService {
-    SaleResponse newSale(SaleRequest saleRequest);
-    List<SaleResponse> getSales();
+    SaleResponse saveSale(SaleRequest saleRequest);
+    SaleResponse updateSale(SaleRequest saleRequest,Long saleId);
+    void deleteSale(Long saleId);
+    List<SaleResponse> getAllSales();
 
-    //SaleDto getSalePerTable(Long tableId);
-    SaleResponse getSalePerTable(Long tableId);
 }

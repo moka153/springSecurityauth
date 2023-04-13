@@ -12,19 +12,38 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/category")
+@RequestMapping("/api/categories")
 @RequiredArgsConstructor
 public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping
     public ResponseEntity<Object> saveCategory(@RequestBody @Valid CategoryRequest categoryRequest){
-        return ResponseHandler.responseBuilder("nouvelle catégorie crée avec succès",
+        return ResponseHandler.responseBuilder("category created",
                 HttpStatus.CREATED,categoryService.saveCategory(categoryRequest));
+    }
+
+    @PutMapping("{categoryId}")
+    public ResponseEntity<Object> updateCategory(@RequestBody @Valid CategoryRequest categoryRequest,
+                                                 @PathVariable Long categoryId){
+        return ResponseHandler.responseBuilder("Category updated",
+                HttpStatus.OK,categoryService.updateCategory(categoryRequest,categoryId));
     }
 
     @DeleteMapping("/{categoryId}")
     public void deleteCategory(@PathVariable Long categoryId){
         categoryService.deleteCategory(categoryId);
     }
+
+    @GetMapping
+    public ResponseEntity<Object> getAllCategories(){
+        return ResponseHandler.responseBuilder("categories found",HttpStatus.FOUND,
+                categoryService.getCategories());
+    }
+    @GetMapping("/{categoryId}")
+    public ResponseEntity<Object> getCategory(@PathVariable Long categoryId){
+        return ResponseHandler.responseBuilder("category found",HttpStatus.FOUND,
+                categoryService.getCategory(categoryId));
+    }
+
 }

@@ -10,12 +10,13 @@ import java.util.List;
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
 @Builder
+@Table(name = "t_categories")
 public class Category {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long categoryId;
-    @Column(unique = true)
+    @Column(unique = true,nullable = false)
     private String name;
     private String picture;
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category",fetch = FetchType.LAZY)
     private List<Product> products;
 }

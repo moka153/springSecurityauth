@@ -1,16 +1,18 @@
 package com.mokasoft.gestresto.dtos;
 
-import com.mokasoft.gestresto.entities.Category;
 import com.mokasoft.gestresto.enums.ProductType;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
-public class ProductDto {
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class ProductResponse {
     private Long productId;
     private String designation;
     private String description;
@@ -19,7 +21,7 @@ public class ProductDto {
     private BigDecimal price;
     private String picture;
     private int quantity;
-    private CategoryDto categoryDto;
-    private List<OptionDto> optionDtos = new ArrayList<>();
-
+    private CategoryResponse category;
+    private boolean available;
+    private boolean isTodaySpecial;
 }

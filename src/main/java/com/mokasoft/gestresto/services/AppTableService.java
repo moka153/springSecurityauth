@@ -1,16 +1,18 @@
 package com.mokasoft.gestresto.services;
 
-import com.mokasoft.gestresto.dtos.AppTableDto;
-import com.mokasoft.gestresto.dtos.SaleDto;
-import com.mokasoft.gestresto.entities.AppTable;
+import com.mokasoft.gestresto.dtos.AppTableRequest;
+import com.mokasoft.gestresto.dtos.AppTableResponse;
 import com.mokasoft.gestresto.entities.AppUser;
+import com.mokasoft.gestresto.entities.Room;
 
 import java.util.List;
 
 public interface AppTableService {
-    AppTableDto saveTable(AppTableDto appTableDto);
-    AppTableDto updateTable(AppTableDto appTableDto);
-    List<AppTable> getTables();
-    List<AppTableDto> getTablesByUser(AppUser appUser);
+    AppTableResponse saveTable(AppTableRequest appTableRequest);
+    AppTableResponse updateTable(AppTableRequest appTableRequest,Long tableId);
+    void deleteTable(Long tableId);
+    List<AppTableResponse> getAllTables(Room room);
+    List<AppTableResponse> getAllTablesByUser(AppUser userId);
+    void affectTableToUser(String userName,String tableName);
 
 }

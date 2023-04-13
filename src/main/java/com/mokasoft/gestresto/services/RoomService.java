@@ -1,22 +1,14 @@
 package com.mokasoft.gestresto.services;
 
-import com.mokasoft.gestresto.dtos.AppTableDto;
-import com.mokasoft.gestresto.dtos.RoomDto;
-import com.mokasoft.gestresto.entities.AppTable;
-import com.mokasoft.gestresto.entities.AppUser;
-import com.mokasoft.gestresto.entities.Room;
+import com.mokasoft.gestresto.dtos.RoomRequest;
+import com.mokasoft.gestresto.dtos.RoomResponse;
 
 import java.util.List;
 
 public interface RoomService {
-    RoomDto saveRoom(RoomDto roomDto);
-
-    List<Room> getRooms();
-
-    AppTableDto saveTable(AppTableDto appTableDto);
-
-    void affectWaiterToTable(String waiterName, String tableName);
-
-
-    List<AppTable> getUsersTable(AppUser userName);
+    RoomResponse saveRoom(RoomRequest roomRequest);
+    RoomResponse updateRoom(RoomRequest roomRequest,Long roomId);
+    void deleteRoom(Long roomId);
+    List<RoomResponse> getAllRooms();
+    RoomResponse getRoom(Long roomId);
 }

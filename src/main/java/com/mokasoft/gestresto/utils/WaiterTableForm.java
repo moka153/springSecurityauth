@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class WaiterTableForm {
-    private String waiterName;
-    private String tabelName;
+    private String userName;
+    private String tableName;
 }
