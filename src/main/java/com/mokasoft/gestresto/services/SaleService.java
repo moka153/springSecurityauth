@@ -12,5 +12,5 @@ public interface SaleService {
     SaleResponse updateSale(SaleRequest saleRequest,Long saleId);
     void deleteSale(Long saleId);
     List<SaleResponse> getAllSales();
-
+    void saleValidation(Long saleId);
 }

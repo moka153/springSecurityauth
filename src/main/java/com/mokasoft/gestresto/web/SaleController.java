@@ -15,22 +15,30 @@ public class SaleController {
     private final SaleService saleService;
 
     @PostMapping
-    public ResponseEntity<Object> saveSale(@RequestBody SaleRequest saleRequest){
+    public ResponseEntity<Object> saveSale(@RequestBody SaleRequest saleRequest) {
         return ResponseHandler.responseBuilder("sale created", HttpStatus.CREATED,
                 saleService.saveSale(saleRequest));
     }
+
     @DeleteMapping("/{saleId}")
-    public void deleteSale(@PathVariable Long saleId){
+    public void deleteSale(@PathVariable Long saleId) {
         saleService.deleteSale(saleId);
     }
+
     @GetMapping
-    public ResponseEntity<Object> getAllSales(){
-        return ResponseHandler.responseBuilder("sales found",HttpStatus.FOUND,
+    public ResponseEntity<Object> getAllSales() {
+        return ResponseHandler.responseBuilder("sales found", HttpStatus.FOUND,
                 saleService.getAllSales());
     }
+
     @PutMapping("/{saleId}")
-    public ResponseEntity<Object> updateSale(@RequestBody SaleRequest saleRequest ,@PathVariable Long saleId){
+    public ResponseEntity<Object> updateSale(@RequestBody SaleRequest saleRequest, @PathVariable Long saleId) {
         return ResponseHandler.responseBuilder("sale updated", HttpStatus.OK,
-                saleService.updateSale(saleRequest,saleId));
+                saleService.updateSale(saleRequest, saleId));
+    }
+
+    @PutMapping("/validation/{saleId}")
+    public void saleValidation(@PathVariable Long saleId) {
+        saleService.saleValidation(saleId);
     }
 }

@@ -1,6 +1,7 @@
 package com.mokasoft.gestresto.web;
 
 import com.mokasoft.gestresto.dtos.AppTableRequest;
+import com.mokasoft.gestresto.dtos.AppTableResponse;
 import com.mokasoft.gestresto.entities.AppUser;
 import com.mokasoft.gestresto.entities.Room;
 import com.mokasoft.gestresto.responses.ResponseHandler;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/tables")
@@ -37,10 +39,15 @@ public class AppTableController {
         appTableService.deleteTable(tableId);
     }
 
-    @GetMapping("/{userId}")
+    /*@GetMapping("/{userId}")
     public ResponseEntity<Object> getAllTablesByUser(@PathVariable AppUser userId){
         return ResponseHandler.responseBuilder("All tables by user",HttpStatus.FOUND,
                 appTableService.getAllTablesByUser(userId));
+    }*/
+
+    @GetMapping("/{userId}")
+    public List<AppTableResponse> getAllTablesByUser(@PathVariable AppUser userId){
+        return appTableService.getAllTablesByUser(userId);
     }
 
     @GetMapping("/room/{roomId}")

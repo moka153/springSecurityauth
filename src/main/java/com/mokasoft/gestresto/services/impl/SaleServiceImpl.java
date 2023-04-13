@@ -62,15 +62,15 @@ public class SaleServiceImpl implements SaleService {
             Sale savedSale = saleRepository.save(sale);
             List<SaleDetail> saleDetails = saleRequest.getSaleDetail()
                     .stream()
-                    .map(saleDetailRequest ->   new SaleDetailMapper()
+                    .map(saleDetailRequest -> new SaleDetailMapper()
                             .saleDetailRequestToSaleDetail(saleDetailRequest))
                     .collect(Collectors.toList());
-            for(SaleDetail sd : saleDetails){
+            for (SaleDetail sd : saleDetails) {
                 sd.setSale(savedSale);
                 saleDetailRepository.save(sd);
             }
             tableRepository.availableTable(saleRequest.getTableId(), false,
-                    saleRequest.getCustomerNumber(),savedSale);
+                    saleRequest.getCustomerNumber(), savedSale);
 
             return saleMapper.saleToSaleResponse(savedSale);
         } else {
@@ -79,9 +79,9 @@ public class SaleServiceImpl implements SaleService {
     }
 
     @Override
-    public SaleResponse updateSale(SaleRequest saleRequest,Long saleId) {
+    public SaleResponse updateSale(SaleRequest saleRequest, Long saleId) {
         if (!saleRequest.getSaleDetail().isEmpty()) {
-            if(!saleRepository.findById(saleId).isPresent()){
+            if (!saleRepository.findById(saleId).isPresent()) {
                 throw new NotFoundException("sale not found");
             }
             if (!userRepository.findById(saleRequest.getUserId()).isPresent()) {
@@ -115,15 +115,15 @@ public class SaleServiceImpl implements SaleService {
             Sale savedSale = saleRepository.save(sale);
             List<SaleDetail> saleDetails = saleRequest.getSaleDetail()
                     .stream()
-                    .map(saleDetailRequest ->   new SaleDetailMapper()
+                    .map(saleDetailRequest -> new SaleDetailMapper()
                             .saleDetailRequestToSaleDetail(saleDetailRequest))
                     .collect(Collectors.toList());
-            for(SaleDetail sd : saleDetails){
+            for (SaleDetail sd : saleDetails) {
                 sd.setSale(savedSale);
                 saleDetailRepository.save(sd);
             }
             tableRepository.availableTable(saleRequest.getTableId(), false,
-                    saleRequest.getCustomerNumber(),savedSale);
+                    saleRequest.getCustomerNumber(), savedSale);
 
             return saleMapper.saleToSaleResponse(savedSale);
         } else {
@@ -137,8 +137,8 @@ public class SaleServiceImpl implements SaleService {
             throw new NotFoundException("sale not found");
         }
         Sale sale = saleRepository.findById(saleId).get();
-        if(sale.getSaleStatus().equals(SaleStatus.IN_PROGRESS)){
-            tableRepository.availableTable(sale.getAppTable().getTableId(), true, 0,null);
+        if (sale.getSaleStatus().equals(SaleStatus.IN_PROGRESS)) {
+            tableRepository.availableTable(sale.getAppTable().getTableId(), true, 0, null);
         }
 
         saleRepository.deleteById(saleId);
@@ -146,10 +146,20 @@ public class SaleServiceImpl implements SaleService {
 
     @Override
     public List<SaleResponse> getAllSales() {
-        List<Sale>sales = saleRepository.findAll();
+        List<Sale> sales = saleRepository.findAll();
         List<SaleResponse> saleResponses = sales.stream()
                 .map(sale -> saleMapper.saleToSaleResponse(sale))
                 .collect(Collectors.toList());
         return saleResponses;
+    }
+
+    @Override
+    public void saleValidation(Long saleId) {
+        if (!saleRepository.findById(saleId).isPresent()) {
+            throw new NotFoundException("sale not found");
+        }
+        saleRepository.saleValidation(saleId);
+        Sale sale = saleRepository.findById(saleId).get();
+        tableRepository.availableTable(sale.getAppTable().getTableId(), true, 0, null);
     }
 }
