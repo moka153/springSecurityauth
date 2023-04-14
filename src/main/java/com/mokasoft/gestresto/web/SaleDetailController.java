@@ -19,7 +19,6 @@ public class SaleDetailController {
 
     @GetMapping("/{sale}")
     public ResponseEntity<Object> getDetailPerSale(@PathVariable Sale sale){
-        return ResponseHandler.responseBuilder("detail found", HttpStatus.FOUND,
-                saleDetailService.getSaleDetails(sale));
+        return ResponseEntity.ok().body(saleDetailService.getSaleDetails(sale));
     }
 }

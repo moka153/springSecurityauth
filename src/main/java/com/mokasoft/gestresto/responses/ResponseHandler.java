@@ -12,7 +12,7 @@ public class ResponseHandler {
         Map<String,Object> response = new HashMap<>();
         response.put("response",httpStatus);
         response.put("message", message);
-        response.put("data",responseObject);
+        //response.put("data",responseObject);
 
         return new ResponseEntity<>(response,httpStatus);
     }

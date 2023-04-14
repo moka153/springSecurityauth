@@ -27,8 +27,7 @@ public class SaleController {
 
     @GetMapping
     public ResponseEntity<Object> getAllSales() {
-        return ResponseHandler.responseBuilder("sales found", HttpStatus.FOUND,
-                saleService.getAllSales());
+        return ResponseEntity.ok().body(saleService.getAllSales());
     }
 
     @PutMapping("/{saleId}")

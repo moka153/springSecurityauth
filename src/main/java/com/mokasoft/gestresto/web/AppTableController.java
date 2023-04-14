@@ -39,15 +39,9 @@ public class AppTableController {
         appTableService.deleteTable(tableId);
     }
 
-    /*@GetMapping("/{userId}")
-    public ResponseEntity<Object> getAllTablesByUser(@PathVariable AppUser userId){
-        return ResponseHandler.responseBuilder("All tables by user",HttpStatus.FOUND,
-                appTableService.getAllTablesByUser(userId));
-    }*/
-
     @GetMapping("/{userId}")
-    public List<AppTableResponse> getAllTablesByUser(@PathVariable AppUser userId){
-        return appTableService.getAllTablesByUser(userId);
+    public ResponseEntity<List<AppTableResponse>> getAllTablesByUser(@PathVariable AppUser userId){
+        return ResponseEntity.ok().body(appTableService.getAllTablesByUser(userId));
     }
 
     @GetMapping("/room/{roomId}")

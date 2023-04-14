@@ -33,12 +33,10 @@ public class RoomController {
     }
     @GetMapping
     public ResponseEntity<Object> getAllRooms(){
-        return ResponseHandler.responseBuilder("rooms found",HttpStatus.FOUND,
-                roomService1.getAllRooms());
+        return ResponseEntity.ok().body(roomService1.getAllRooms());
     }
     @GetMapping("/{roomId}")
     public ResponseEntity<Object> getRoom(@PathVariable Long roomId){
-        return ResponseHandler.responseBuilder("room found",HttpStatus.FOUND,
-                roomService1.getRoom(roomId));
+        return ResponseEntity.ok().body(roomService1.getRoom(roomId));
     }
 }
