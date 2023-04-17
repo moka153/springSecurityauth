@@ -1,10 +1,12 @@
 package com.mokasoft.gestresto.services.impl;
 
+import com.mokasoft.gestresto.dtos.SaleDetailRequest;
 import com.mokasoft.gestresto.dtos.SaleDetailResponse;
 import com.mokasoft.gestresto.entities.Sale;
 import com.mokasoft.gestresto.entities.SaleDetail;
 import com.mokasoft.gestresto.exceptions.NotFoundException;
 import com.mokasoft.gestresto.mappers.SaleDetailMapper;
+import com.mokasoft.gestresto.repositories.ProductRepository;
 import com.mokasoft.gestresto.repositories.SaleDetailRepository;
 import com.mokasoft.gestresto.repositories.SaleRepository;
 import com.mokasoft.gestresto.services.SaleDetailService;
@@ -22,6 +24,7 @@ public class SaleDetailServiceImpl implements SaleDetailService {
     private final SaleDetailRepository saleDetailRepository;
     private final SaleRepository saleRepository;
     private final SaleDetailMapper saleDetailMapper;
+    private final ProductRepository productRepository;
 
     @Override
     public List<SaleDetailResponse> getSaleDetails(Sale sale) {
@@ -33,5 +36,42 @@ public class SaleDetailServiceImpl implements SaleDetailService {
                 .map(saleDetail -> saleDetailMapper.saleDetailToSaleDetailResponse(saleDetail))
                 .collect(Collectors.toList());
         return saleDetailResponses;
+    }
+
+    @Override
+    public SaleDetailResponse addSaleDetail(SaleDetailRequest saleDetailRequest, Long saleId) {
+        if(!saleRepository.findById(saleId).isPresent()){
+            throw new NotFoundException("sale not found");
+        }
+        SaleDetail saleDetail = saleDetailMapper.saleDetailRequestToSaleDetail(saleDetailRequest);
+        Sale sale = new Sale();
+        sale.setSaleId(saleId);
+        saleDetail.setSale(sale);
+        SaleDetail savedSaleDetail = saleDetailRepository.save(saleDetail);
+        return saleDetailMapper.saleDetailToSaleDetailResponse(savedSaleDetail);
+    }
+
+    @Override
+    public SaleDetailResponse updateSaleDetail(SaleDetailRequest saleDetailRequest, Long saleDetailId) {
+        if(!saleDetailRepository.findById(saleDetailId).isPresent()){
+            throw new NotFoundException("sale detail not found");
+        }
+        if(!productRepository.findById(saleDetailRequest.getProductId()).isPresent()){
+            throw new NotFoundException("product not found");
+        }
+        SaleDetail getSaleDetail = saleDetailRepository.findById(saleDetailId).get();
+        SaleDetail saleDetail = saleDetailMapper.saleDetailRequestToSaleDetail(saleDetailRequest);
+        saleDetail.setDetailId(saleDetailId);
+        saleDetail.setSale(getSaleDetail.getSale());
+        SaleDetail updatedSaleDetail = saleDetailRepository.save(saleDetail);
+        return saleDetailMapper.saleDetailToSaleDetailResponse(updatedSaleDetail);
+    }
+
+    @Override
+    public void deleteSaleDetail(Long saleDetailId) {
+        if(!saleDetailRepository.findById(saleDetailId).isPresent()){
+            throw new NotFoundException("sale detail not found");
+        }
+        saleDetailRepository.deleteById(saleDetailId);
     }
 }

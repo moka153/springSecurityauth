@@ -33,7 +33,7 @@ public class SaleController {
     @PutMapping("/{saleId}")
     public ResponseEntity<Object> updateSale(@RequestBody SaleRequest saleRequest, @PathVariable Long saleId) {
         return ResponseHandler.responseBuilder("sale updated", HttpStatus.OK,
-                saleService.updateSale(saleRequest, saleId));
+                saleService.updateSale(saleId));
     }
 
     @PutMapping("/validation/{saleId}")

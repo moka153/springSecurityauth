@@ -79,56 +79,26 @@ public class SaleServiceImpl implements SaleService {
     }
 
     @Override
-    public SaleResponse updateSale(SaleRequest saleRequest, Long saleId) {
-        if (!saleRequest.getSaleDetail().isEmpty()) {
-            if (!saleRepository.findById(saleId).isPresent()) {
-                throw new NotFoundException("sale not found");
-            }
-            if (!userRepository.findById(saleRequest.getUserId()).isPresent()) {
-                throw new NotFoundException("user not found");
-            }
-            if (!tableRepository.findById(saleRequest.getTableId()).isPresent()) {
-                throw new NotFoundException("table not found");
-            }
-            AppUser appUser = userRepository.findById(saleRequest.getUserId()).get();
-            AppTable appTable = tableRepository.findById(saleRequest.getTableId()).get();
-            Sale sale = saleMapper.saleRequestToSale(saleRequest);
-
-            BigDecimal amount = BigDecimal.ZERO;
-            BigDecimal benefit = BigDecimal.ZERO;
-
-            for (SaleDetailRequest sd : saleRequest.getSaleDetail()) {
-                Long productId = sd.getProductId();
-                Product p = productRepository.findById(productId).get();
-                BigDecimal costPrice = p.getCostPrice();
-                BigDecimal price = sd.getUnitPrice();
-                BigDecimal quantity = sd.getQuantity();
-                amount = amount.add((price.multiply(quantity)));
-                benefit = benefit.add((amount.subtract(costPrice.multiply(quantity))));
-            }
-            sale.setAmount(amount);
-            sale.setBenefit(benefit);
-            sale.setAppTable(appTable);
-            sale.setAppUser(appUser);
-            sale.setSaleStatus(SaleStatus.IN_PROGRESS);
-            sale.setSaleId(saleId);
-            Sale savedSale = saleRepository.save(sale);
-            List<SaleDetail> saleDetails = saleRequest.getSaleDetail()
-                    .stream()
-                    .map(saleDetailRequest -> new SaleDetailMapper()
-                            .saleDetailRequestToSaleDetail(saleDetailRequest))
-                    .collect(Collectors.toList());
-            for (SaleDetail sd : saleDetails) {
-                sd.setSale(savedSale);
-                saleDetailRepository.save(sd);
-            }
-            tableRepository.availableTable(saleRequest.getTableId(), false,
-                    saleRequest.getCustomerNumber(), savedSale);
-
-            return saleMapper.saleToSaleResponse(savedSale);
-        } else {
-            throw new NotFoundException("sale details is empty");
+    public SaleResponse updateSale(Long saleId) {
+        if(!saleRepository.findById(saleId).isPresent()){
+            throw new NotFoundException("sale not found");
         }
+        Sale sale = saleRepository.findById(saleId).get();
+        BigDecimal amount = BigDecimal.ZERO;
+        BigDecimal benefit = BigDecimal.ZERO;
+
+        for (SaleDetail sd : sale.getSaleDetails()) {
+            BigDecimal costPrice = sd.getProduct().getCostPrice();
+            BigDecimal price = sd.getUnitPrice();
+            BigDecimal quantity = sd.getQuantity();
+            amount = amount.add((price.multiply(quantity)));
+            benefit = benefit.add((amount.subtract(costPrice.multiply(quantity))));
+        }
+        sale.setAmount(amount);
+        sale.setBenefit(benefit);
+        sale.setSaleId(saleId);
+        Sale updatedSale = saleRepository.save(sale);
+        return saleMapper.saleToSaleResponse(updatedSale);
     }
 
     @Override
