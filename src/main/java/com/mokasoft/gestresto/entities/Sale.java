@@ -38,5 +38,7 @@ public class Sale {
     private List<SaleDetail> saleDetails = new ArrayList<>();
     @OneToOne
     private AppTable appTable;
+    @OneToMany(mappedBy = "sale",cascade = CascadeType.REMOVE)
+    private List<Payment> payments;
 
 }

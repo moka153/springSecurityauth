@@ -9,7 +9,7 @@ import java.util.List;
 public interface SaleDetailService {
     List<SaleDetailResponse> getSaleDetails(Sale sale);
 
-    SaleDetailResponse addSaleDetail(SaleDetailRequest saleDetailRequest,Long saleId);
+    List<SaleDetailResponse> addSaleDetail(List<SaleDetailRequest> saleDetailRequest,Long saleId);
     SaleDetailResponse updateSaleDetail(SaleDetailRequest saleDetailRequest,Long saleDetailId);
     void deleteSaleDetail(Long saleDetailId);
 }

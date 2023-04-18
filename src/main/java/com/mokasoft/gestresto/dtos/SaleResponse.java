@@ -20,6 +20,6 @@ public class SaleResponse {
     private Date saleDate;
     private SaleType type;
     private BigDecimal amount;
-    private AppTableResponse table;
+    //private AppTableResponse table;
     private List<SaleDetailResponse> saleDetailResponses;
 }

@@ -1,5 +1,6 @@
 package com.mokasoft.gestresto.web;
 
+import com.mokasoft.gestresto.dtos.PaymentRequest;
 import com.mokasoft.gestresto.dtos.SaleRequest;
 import com.mokasoft.gestresto.responses.ResponseHandler;
 import com.mokasoft.gestresto.services.SaleService;
@@ -7,6 +8,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/sales")
@@ -30,14 +33,20 @@ public class SaleController {
         return ResponseEntity.ok().body(saleService.getAllSales());
     }
 
+    //TODO add to trello
+    @GetMapping("/{saleId}")
+    public ResponseEntity<Object> getSaleById(@PathVariable Long saleId){
+        return ResponseHandler.responseBuilder("sale found",HttpStatus.OK,
+                saleService.getSaleById(saleId));
+    }
     @PutMapping("/{saleId}")
-    public ResponseEntity<Object> updateSale(@RequestBody SaleRequest saleRequest, @PathVariable Long saleId) {
+    public ResponseEntity<Object> updateSale(@PathVariable Long saleId) {
         return ResponseHandler.responseBuilder("sale updated", HttpStatus.OK,
                 saleService.updateSale(saleId));
     }
 
     @PutMapping("/validation/{saleId}")
-    public void saleValidation(@PathVariable Long saleId) {
-        saleService.saleValidation(saleId);
+    public void saleValidation(@RequestBody List<PaymentRequest> paymentRequests, @PathVariable Long saleId) {
+        saleService.saleValidation(paymentRequests,saleId);
     }
 }

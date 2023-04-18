@@ -1,5 +1,6 @@
 package com.mokasoft.gestresto.services.impl;
 
+import com.mokasoft.gestresto.dtos.PaymentRequest;
 import com.mokasoft.gestresto.dtos.SaleDetailRequest;
 import com.mokasoft.gestresto.dtos.SaleRequest;
 import com.mokasoft.gestresto.dtos.SaleResponse;
@@ -9,6 +10,7 @@ import com.mokasoft.gestresto.exceptions.NotFoundException;
 import com.mokasoft.gestresto.mappers.SaleDetailMapper;
 import com.mokasoft.gestresto.mappers.SaleMapper;
 import com.mokasoft.gestresto.repositories.*;
+import com.mokasoft.gestresto.services.PaymentService;
 import com.mokasoft.gestresto.services.SaleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,7 @@ public class SaleServiceImpl implements SaleService {
     private final AppTableRepository tableRepository;
     private final ProductRepository productRepository;
     private final SaleDetailRepository saleDetailRepository;
+    private final PaymentService paymentService;
 
     @Override
     public SaleResponse saveSale(SaleRequest saleRequest) {
@@ -51,6 +54,7 @@ public class SaleServiceImpl implements SaleService {
                 BigDecimal costPrice = p.getCostPrice();
                 BigDecimal price = sd.getUnitPrice();
                 BigDecimal quantity = sd.getQuantity();
+                // TODO check out benefit
                 amount = amount.add((price.multiply(quantity)));
                 benefit = benefit.add((amount.subtract(costPrice.multiply(quantity))));
             }
@@ -124,17 +128,26 @@ public class SaleServiceImpl implements SaleService {
     }
 
     @Override
-    public void saleValidation(Long saleId) {
+    public void saleValidation(List<PaymentRequest> paymentRequests,Long saleId) {
         if (!saleRepository.findById(saleId).isPresent()) {
             throw new NotFoundException("sale not found");
         }
+        if(paymentRequests.isEmpty()){
+            throw new NotFoundException("payments not found");
+        }
         saleRepository.saleValidation(saleId);
         Sale sale = saleRepository.findById(saleId).get();
+        paymentService.savePayment(paymentRequests,saleId);
         tableRepository.availableTable(sale.getAppTable().getTableId(), true, 0, null);
     }
 
     @Override
     public SaleResponse getSaleById(Long saleId) {
-        return null;
+        if(!saleRepository.existsById(saleId)){
+            throw new NotFoundException("sale not found");
+        }
+        Sale sale = saleRepository.findById(saleId).get();
+        return saleMapper.saleToSaleResponse(sale);
     }
+
 }

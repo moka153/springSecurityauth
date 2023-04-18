@@ -39,16 +39,28 @@ public class SaleDetailServiceImpl implements SaleDetailService {
     }
 
     @Override
-    public SaleDetailResponse addSaleDetail(SaleDetailRequest saleDetailRequest, Long saleId) {
+    public List<SaleDetailResponse> addSaleDetail(List<SaleDetailRequest> saleDetailRequests, Long saleId) {
         if(!saleRepository.findById(saleId).isPresent()){
             throw new NotFoundException("sale not found");
         }
-        SaleDetail saleDetail = saleDetailMapper.saleDetailRequestToSaleDetail(saleDetailRequest);
+        for(SaleDetailRequest sd : saleDetailRequests){
+            if(!productRepository.existsById(sd.getProductId())){
+                throw new NotFoundException("product not found");
+            }
+        }
         Sale sale = new Sale();
         sale.setSaleId(saleId);
-        saleDetail.setSale(sale);
-        SaleDetail savedSaleDetail = saleDetailRepository.save(saleDetail);
-        return saleDetailMapper.saleDetailToSaleDetailResponse(savedSaleDetail);
+        List<SaleDetail> saleDetails = saleDetailRequests.stream()
+                .map(saleDetailRequest -> saleDetailMapper.saleDetailRequestToSaleDetail(saleDetailRequest))
+                .collect(Collectors.toList());
+        for(SaleDetail s : saleDetails){
+            s.setSale(sale);
+            saleDetailRepository.save(s);
+        }
+        List<SaleDetailResponse> saleDetailResponses = saleDetails.stream()
+                .map(saleDetail -> saleDetailMapper.saleDetailToSaleDetailResponse(saleDetail))
+                .collect(Collectors.toList());
+        return saleDetailResponses;
     }
 
     @Override

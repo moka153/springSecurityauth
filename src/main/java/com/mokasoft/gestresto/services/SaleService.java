@@ -1,8 +1,10 @@
 package com.mokasoft.gestresto.services;
 
+import com.mokasoft.gestresto.dtos.PaymentRequest;
 import com.mokasoft.gestresto.dtos.SaleRequest;
 import com.mokasoft.gestresto.dtos.SaleResponse;
 import com.mokasoft.gestresto.entities.AppTable;
+import com.mokasoft.gestresto.entities.Payment;
 
 import java.util.Date;
 import java.util.List;
@@ -12,6 +14,6 @@ public interface SaleService {
     SaleResponse updateSale(Long saleId);
     void deleteSale(Long saleId);
     List<SaleResponse> getAllSales();
-    void saleValidation(Long saleId);
+    void saleValidation(List<PaymentRequest> paymentRequests,Long saleId);
     SaleResponse getSaleById(Long saleId);
 }

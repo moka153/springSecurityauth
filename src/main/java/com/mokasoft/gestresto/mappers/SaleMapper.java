@@ -30,7 +30,7 @@ public class SaleMapper {
                 .saleDate(sale.getSaleDate())
                 .type(sale.getType())
                 .amount(sale.getAmount())
-                .table(new AppTableMapper().appTableToAppTableResponse(sale.getAppTable()))
+                //.table(new AppTableMapper().appTableToAppTableResponse(sale.getAppTable()))
                 .saleDetailResponses(sale.getSaleDetails()
                         .stream()
                         .map(saleDetail -> new SaleDetailMapper().saleDetailToSaleDetailResponse(saleDetail))
