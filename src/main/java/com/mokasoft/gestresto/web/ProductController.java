@@ -34,16 +34,19 @@ public class ProductController {
     }
     @GetMapping
     public ResponseEntity<Object> getAllProducts(){
-        return ResponseEntity.ok().body(productService.getAllProducts());
+        return ResponseHandler.responseBuilder("products found",HttpStatus.OK,
+                productService.getAllProducts());
     }
     @GetMapping("/{productId}")
     public ResponseEntity<Object> getProductById(@PathVariable Long productId){
-        return ResponseEntity.ok().body(productService.getProductById(productId));
+        return ResponseHandler.responseBuilder("products found",HttpStatus.OK,
+                productService.getProductById(productId));
     }
 
     @GetMapping("/category/{category}")
     public ResponseEntity<Object> getProductByCategory(@PathVariable Category category){
-        return ResponseEntity.ok().body(productService.getProductsByCategory(category));
+        return ResponseHandler.responseBuilder("products found",HttpStatus.OK,
+                productService.getProductsByCategory(category));
     }
 
 }

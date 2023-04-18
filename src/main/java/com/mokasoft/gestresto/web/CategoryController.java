@@ -37,11 +37,14 @@ public class CategoryController {
 
     @GetMapping
     public ResponseEntity<Object> getAllCategories(){
-        return ResponseEntity.ok().body(categoryService.getCategories());
+        return ResponseHandler.responseBuilder("categories found",HttpStatus.OK,
+                categoryService.getCategories());
     }
     @GetMapping("/{categoryId}")
     public ResponseEntity<Object> getCategory(@PathVariable Long categoryId){
-        return ResponseEntity.ok().body(categoryService.getCategory(categoryId));
+        return ResponseHandler.responseBuilder("category found",HttpStatus.OK,
+                categoryService.getCategory(categoryId));
+
     }
 
 }

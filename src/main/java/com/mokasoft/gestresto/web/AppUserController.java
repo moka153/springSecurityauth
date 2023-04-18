@@ -43,7 +43,7 @@ public class AppUserController {
 
     @GetMapping
     public ResponseEntity<Object> getAllUsers(){
-        return ResponseHandler.responseBuilder("users found",HttpStatus.FOUND,
+        return ResponseHandler.responseBuilder("users found",HttpStatus.OK,
                 appUserService.getAllUsers());
     }
     @DeleteMapping("/{userId}")
@@ -94,7 +94,7 @@ public class AppUserController {
         }
     }
 
-    //Renvoie un null
+    //TODO Renvoie un null
     @GetMapping(path = "/profile")
     public AppUserResponse profile(Principal principal){
         return appUserService.loadUserByUsername(principal.getName());

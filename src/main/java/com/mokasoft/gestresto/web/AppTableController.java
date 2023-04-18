@@ -48,7 +48,7 @@ public class AppTableController {
 
     @GetMapping("/room/{roomId}")
     public ResponseEntity<Object> getAllTablesByRoom(@PathVariable Room roomId){
-        return ResponseHandler.responseBuilder("tables by room",HttpStatus.FOUND,
+        return ResponseHandler.responseBuilder("tables by room",HttpStatus.OK,
                 appTableService.getAllTables(roomId));
     }
 

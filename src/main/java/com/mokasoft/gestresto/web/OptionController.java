@@ -33,6 +33,7 @@ public class OptionController {
     }
     @GetMapping
     public ResponseEntity<Object> getAllOptions(){
-        return ResponseEntity.ok().body(optionService.getAllOptions());
+        return ResponseHandler.responseBuilder("options found",HttpStatus.OK,
+                optionService.getAllOptions());
     }
 }
