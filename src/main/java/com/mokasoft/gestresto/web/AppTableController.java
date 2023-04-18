@@ -42,7 +42,7 @@ public class AppTableController {
     @GetMapping("/{userId}")
     public ResponseEntity<Object> getAllTablesByUser(@PathVariable AppUser userId){
         //return ResponseEntity.ok().body(appTableService.getAllTablesByUser(userId));
-        return ResponseHandler.responseBuilder("tables found",HttpStatus.FOUND,
+        return ResponseHandler.responseBuilder("tables found",HttpStatus.OK,
                 appTableService.getAllTablesByUser(userId));
     }
 
