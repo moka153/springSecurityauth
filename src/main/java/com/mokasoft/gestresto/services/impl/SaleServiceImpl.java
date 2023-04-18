@@ -132,4 +132,9 @@ public class SaleServiceImpl implements SaleService {
         Sale sale = saleRepository.findById(saleId).get();
         tableRepository.availableTable(sale.getAppTable().getTableId(), true, 0, null);
     }
+
+    @Override
+    public SaleResponse getSaleById(Long saleId) {
+        return null;
+    }
 }

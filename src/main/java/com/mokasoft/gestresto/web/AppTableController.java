@@ -40,13 +40,15 @@ public class AppTableController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<List<AppTableResponse>> getAllTablesByUser(@PathVariable AppUser userId){
-        return ResponseEntity.ok().body(appTableService.getAllTablesByUser(userId));
+    public ResponseEntity<Object> getAllTablesByUser(@PathVariable AppUser userId){
+        //return ResponseEntity.ok().body(appTableService.getAllTablesByUser(userId));
+        return ResponseHandler.responseBuilder("tables found",HttpStatus.FOUND,
+                appTableService.getAllTablesByUser(userId));
     }
 
     @GetMapping("/room/{roomId}")
     public ResponseEntity<Object> getAllTablesByRoom(@PathVariable Room roomId){
-        return ResponseHandler.responseBuilder("All tables by room",HttpStatus.FOUND,
+        return ResponseHandler.responseBuilder("tables by room",HttpStatus.FOUND,
                 appTableService.getAllTables(roomId));
     }
 
