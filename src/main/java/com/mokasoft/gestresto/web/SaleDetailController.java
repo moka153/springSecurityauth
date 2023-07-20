@@ -26,7 +26,7 @@ public class SaleDetailController {
     public ResponseEntity<Object> addProduct(@RequestBody List<SaleDetailRequest> saleDetailRequest,
                                              @PathVariable Long saleId){
         return ResponseHandler.responseBuilder("sale detail updated",HttpStatus.CREATED,
-                saleDetailService.addSaleDetail(saleDetailRequest,saleId));
+                saleDetailService.addDetail(saleDetailRequest,saleId));
 
     }
     @PutMapping("updateProductSale/{saleDetailId}")

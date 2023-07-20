@@ -2,10 +2,12 @@ package com.mokasoft.gestresto.services.impl;
 
 import com.mokasoft.gestresto.dtos.SaleDetailRequest;
 import com.mokasoft.gestresto.dtos.SaleDetailResponse;
+import com.mokasoft.gestresto.dtos.SaleResponse;
 import com.mokasoft.gestresto.entities.Sale;
 import com.mokasoft.gestresto.entities.SaleDetail;
 import com.mokasoft.gestresto.exceptions.NotFoundException;
 import com.mokasoft.gestresto.mappers.SaleDetailMapper;
+import com.mokasoft.gestresto.mappers.SaleMapper;
 import com.mokasoft.gestresto.repositories.ProductRepository;
 import com.mokasoft.gestresto.repositories.SaleDetailRepository;
 import com.mokasoft.gestresto.repositories.SaleRepository;
@@ -85,5 +87,33 @@ public class SaleDetailServiceImpl implements SaleDetailService {
             throw new NotFoundException("sale detail not found");
         }
         saleDetailRepository.deleteById(saleDetailId);
+    }
+
+
+
+    @Override
+    public SaleResponse addDetail(List<SaleDetailRequest> saleDetailRequests, Long saleId) {
+        if(!saleRepository.findById(saleId).isPresent()){
+            throw new NotFoundException("sale not found");
+        }
+        for(SaleDetailRequest sd : saleDetailRequests){
+            if(!productRepository.existsById(sd.getProductId())){
+                throw new NotFoundException("product not found");
+            }
+        }
+        Sale sale = new Sale();
+        sale.setSaleId(saleId);
+        List<SaleDetail> saleDetails = saleDetailRequests.stream()
+                .map(saleDetailRequest -> saleDetailMapper.saleDetailRequestToSaleDetail(saleDetailRequest))
+                .collect(Collectors.toList());
+        for(SaleDetail s : saleDetails){
+            s.setSale(sale);
+            saleDetailRepository.save(s);
+        }
+        List<SaleDetailResponse> saleDetailResponses = saleDetails.stream()
+                .map(saleDetail -> saleDetailMapper.saleDetailToSaleDetailResponse(saleDetail))
+                .collect(Collectors.toList());
+        Sale saleResponse = saleRepository.findById(saleId).get();
+        return new SaleMapper().saleToSaleResponse(saleResponse);
     }
 }

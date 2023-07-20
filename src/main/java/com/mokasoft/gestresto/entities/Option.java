@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -18,6 +19,7 @@ public class Option {
     private Long optionId;
     @Column(unique = true,nullable = false)
     private String name;
+    private BigDecimal price;
     @ManyToMany(mappedBy = "options",fetch = FetchType.LAZY)
     private List<SaleDetail> saleDetail;
 }
