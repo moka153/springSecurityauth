@@ -3,19 +3,18 @@ package com.mokasoft.gestresto.services.impl;
 import com.mokasoft.gestresto.dtos.SaleDetailRequest;
 import com.mokasoft.gestresto.dtos.SaleDetailResponse;
 import com.mokasoft.gestresto.dtos.SaleResponse;
-import com.mokasoft.gestresto.entities.Sale;
-import com.mokasoft.gestresto.entities.SaleDetail;
+import com.mokasoft.gestresto.entities.*;
+import com.mokasoft.gestresto.enums.SaleStatus;
 import com.mokasoft.gestresto.exceptions.NotFoundException;
 import com.mokasoft.gestresto.mappers.SaleDetailMapper;
 import com.mokasoft.gestresto.mappers.SaleMapper;
-import com.mokasoft.gestresto.repositories.ProductRepository;
-import com.mokasoft.gestresto.repositories.SaleDetailRepository;
-import com.mokasoft.gestresto.repositories.SaleRepository;
+import com.mokasoft.gestresto.repositories.*;
 import com.mokasoft.gestresto.services.SaleDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +26,9 @@ public class SaleDetailServiceImpl implements SaleDetailService {
     private final SaleRepository saleRepository;
     private final SaleDetailMapper saleDetailMapper;
     private final ProductRepository productRepository;
+    private final AppUserRepository userRepository;
+    private final AppTableRepository tableRepository;
+    private final SaleMapper saleMapper;
 
     @Override
     public List<SaleDetailResponse> getSaleDetails(Sale sale) {
@@ -101,8 +103,29 @@ public class SaleDetailServiceImpl implements SaleDetailService {
                 throw new NotFoundException("product not found");
             }
         }
-        Sale sale = new Sale();
+
+
+        Sale sale = saleRepository.findById(saleId).get();
         sale.setSaleId(saleId);
+        BigDecimal amount = BigDecimal.ZERO;
+        BigDecimal benefit = BigDecimal.ZERO;
+
+        for (SaleDetailRequest sd : saleDetailRequests) {
+            Long productId = sd.getProductId();
+            Product p = productRepository.findById(productId).get();
+            BigDecimal costPrice = p.getCostPrice();
+            BigDecimal price = sd.getUnitPrice();
+            BigDecimal quantity = sd.getQuantity();
+            // TODO check out benefit
+            amount = amount.add((price.multiply(quantity)));
+            benefit = benefit.add((amount.subtract(costPrice.multiply(quantity))));
+        }
+
+        sale.setAmount(amount);
+        sale.setBenefit(benefit);
+        
+        sale.setSaleStatus(SaleStatus.IN_PROGRESS);
+        Sale savedSale = saleRepository.save(sale);
         List<SaleDetail> saleDetails = saleDetailRequests.stream()
                 .map(saleDetailRequest -> saleDetailMapper.saleDetailRequestToSaleDetail(saleDetailRequest))
                 .collect(Collectors.toList());
