@@ -107,8 +107,8 @@ public class SaleDetailServiceImpl implements SaleDetailService {
 
         Sale sale = saleRepository.findById(saleId).get();
         sale.setSaleId(saleId);
-        BigDecimal amount = BigDecimal.ZERO;
-        BigDecimal benefit = BigDecimal.ZERO;
+        BigDecimal amount = sale.getAmount();
+        BigDecimal benefit = sale.getBenefit();
 
         for (SaleDetailRequest sd : saleDetailRequests) {
             Long productId = sd.getProductId();
@@ -116,7 +116,6 @@ public class SaleDetailServiceImpl implements SaleDetailService {
             BigDecimal costPrice = p.getCostPrice();
             BigDecimal price = sd.getUnitPrice();
             BigDecimal quantity = sd.getQuantity();
-            // TODO check out benefit
             amount = amount.add((price.multiply(quantity)));
             benefit = benefit.add((amount.subtract(costPrice.multiply(quantity))));
         }
