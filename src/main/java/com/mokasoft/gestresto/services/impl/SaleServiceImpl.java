@@ -54,9 +54,9 @@ public class SaleServiceImpl implements SaleService {
                 BigDecimal costPrice = p.getCostPrice();
                 BigDecimal price = sd.getUnitPrice();
                 BigDecimal quantity = sd.getQuantity();
-                // TODO check out benefit
+
                 amount = amount.add((price.multiply(quantity)));
-                benefit = benefit.add((amount.subtract(costPrice.multiply(quantity))));
+                benefit = benefit.add((price.subtract(costPrice)).multiply(quantity));
             }
             sale.setAmount(amount);
             sale.setBenefit(benefit);
@@ -96,7 +96,7 @@ public class SaleServiceImpl implements SaleService {
             BigDecimal price = sd.getUnitPrice();
             BigDecimal quantity = sd.getQuantity();
             amount = amount.add((price.multiply(quantity)));
-            benefit = benefit.add((amount.subtract(costPrice.multiply(quantity))));
+            benefit = benefit.add((price.subtract(costPrice)).multiply(quantity));
         }
         sale.setAmount(amount);
         sale.setBenefit(benefit);
@@ -135,10 +135,28 @@ public class SaleServiceImpl implements SaleService {
         if(paymentRequests.isEmpty()){
             throw new NotFoundException("payments not found");
         }
-        saleRepository.saleValidation(saleId);
         Sale sale = saleRepository.findById(saleId).get();
+        BigDecimal amount = sale.getAmount();
+        BigDecimal totalPayment = BigDecimal.ZERO;
+        List<Payment> payments = sale.getPayments();
+        if(!payments.isEmpty()){
+            for(Payment p : payments){
+                totalPayment = totalPayment.add(p.getPayment());
+            }
+        }
+        if(!paymentRequests.isEmpty()){
+            for(PaymentRequest pr : paymentRequests){
+                totalPayment = totalPayment.add(pr.getPayment());
+            }
+        }
         paymentService.savePayment(paymentRequests,saleId);
-        tableRepository.availableTable(sale.getAppTable().getTableId(), true, 0, null);
+        System.out.println(amount);
+        System.out.println(totalPayment);
+        if(totalPayment.compareTo(amount) >= 0){
+            saleRepository.saleValidation(saleId);
+            tableRepository.availableTable(sale.getAppTable().getTableId(), true, 0, null);
+        }
+
     }
 
     @Override

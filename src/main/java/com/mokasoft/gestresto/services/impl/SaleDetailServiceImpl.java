@@ -117,7 +117,7 @@ public class SaleDetailServiceImpl implements SaleDetailService {
             BigDecimal price = sd.getUnitPrice();
             BigDecimal quantity = sd.getQuantity();
             amount = amount.add((price.multiply(quantity)));
-            benefit = benefit.add((amount.subtract(costPrice.multiply(quantity))));
+            benefit = benefit.add((price.subtract(costPrice)).multiply(quantity));
         }
 
         sale.setAmount(amount);

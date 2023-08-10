@@ -6,6 +6,8 @@ import com.mokasoft.gestresto.entities.*;
 import org.springframework.stereotype.Component;
 
 import javax.management.relation.Role;
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -25,6 +27,12 @@ public class SaleMapper {
     }
 
     public SaleResponse saleToSaleResponse(Sale sale){
+//        List<Payment> payments = sale.getPayments();
+//        BigDecimal amount = sale.getAmount();
+//        BigDecimal restAPayer = BigDecimal.ZERO;
+//        BigDecimal totalPayment = BigDecimal.ZERO;
+
+
         SaleResponse saleResponse = SaleResponse.builder()
                 .saleId(sale.getSaleId())
                 .saleDate(sale.getSaleDate())
