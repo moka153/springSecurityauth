@@ -45,4 +45,13 @@ public class PaymentServiceImpl implements PaymentService {
     public PaymentResponse updatePayment(PaymentRequest paymentRequest, Long paymentId) {
         return null;
     }
+
+    @Override
+    public List<PaymentResponse> findPaymentBySale(Sale sale) {
+        List<Payment> payments = paymentRepository.findBySale(sale);
+        List<PaymentResponse> paymentResponseList = payments.stream()
+                .map(payment -> paymentMapper.paymentToPaymentResponse(payment))
+                .collect(Collectors.toList());
+        return paymentResponseList;
+    }
 }

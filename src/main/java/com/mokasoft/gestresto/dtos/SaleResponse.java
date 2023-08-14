@@ -1,6 +1,7 @@
 package com.mokasoft.gestresto.dtos;
 
 
+import com.mokasoft.gestresto.enums.SaleStatus;
 import com.mokasoft.gestresto.enums.SaleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +21,7 @@ public class SaleResponse {
     private Date saleDate;
     private SaleType type;
     private BigDecimal amount;
+    private SaleStatus status;
     //private AppTableResponse table;
     private List<SaleDetailResponse> saleDetailResponses;
 }

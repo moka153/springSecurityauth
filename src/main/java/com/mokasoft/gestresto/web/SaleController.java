@@ -46,7 +46,8 @@ public class SaleController {
     }
 
     @PutMapping("/validation/{saleId}")
-    public void saleValidation(@RequestBody List<PaymentRequest> paymentRequests, @PathVariable Long saleId) {
-        saleService.saleValidation(paymentRequests,saleId);
+    public ResponseEntity<Object> saleValidation(@RequestBody List<PaymentRequest> paymentRequests, @PathVariable Long saleId) {
+        return ResponseHandler.responseBuilder("payment saved",HttpStatus.OK,
+                saleService.saleValidation(paymentRequests,saleId));
     }
 }

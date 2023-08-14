@@ -38,6 +38,7 @@ public class SaleMapper {
                 .saleDate(sale.getSaleDate())
                 .type(sale.getType())
                 .amount(sale.getAmount())
+                .status(sale.getSaleStatus())
                 //.table(new AppTableMapper().appTableToAppTableResponse(sale.getAppTable()))
                 .saleDetailResponses(sale.getSaleDetails()
                         .stream()

@@ -1,12 +1,10 @@
 package com.mokasoft.gestresto.services.impl;
 
-import com.mokasoft.gestresto.dtos.PaymentRequest;
-import com.mokasoft.gestresto.dtos.SaleDetailRequest;
-import com.mokasoft.gestresto.dtos.SaleRequest;
-import com.mokasoft.gestresto.dtos.SaleResponse;
+import com.mokasoft.gestresto.dtos.*;
 import com.mokasoft.gestresto.entities.*;
 import com.mokasoft.gestresto.enums.SaleStatus;
 import com.mokasoft.gestresto.exceptions.NotFoundException;
+import com.mokasoft.gestresto.mappers.PaymentMapper;
 import com.mokasoft.gestresto.mappers.SaleDetailMapper;
 import com.mokasoft.gestresto.mappers.SaleMapper;
 import com.mokasoft.gestresto.repositories.*;
@@ -31,6 +29,7 @@ public class SaleServiceImpl implements SaleService {
     private final ProductRepository productRepository;
     private final SaleDetailRepository saleDetailRepository;
     private final PaymentService paymentService;
+    private final PaymentRepository paymentRepository;
 
     @Override
     public SaleResponse saveSale(SaleRequest saleRequest) {
@@ -128,7 +127,7 @@ public class SaleServiceImpl implements SaleService {
     }
 
     @Override
-    public void saleValidation(List<PaymentRequest> paymentRequests,Long saleId) {
+    public SaleValidationResponse saleValidation(List<PaymentRequest> paymentRequests, Long saleId) {
         if (!saleRepository.findById(saleId).isPresent()) {
             throw new NotFoundException("sale not found");
         }
@@ -150,13 +149,19 @@ public class SaleServiceImpl implements SaleService {
             }
         }
         paymentService.savePayment(paymentRequests,saleId);
-        System.out.println(amount);
-        System.out.println(totalPayment);
+
         if(totalPayment.compareTo(amount) >= 0){
             saleRepository.saleValidation(saleId);
             tableRepository.availableTable(sale.getAppTable().getTableId(), true, 0, null);
         }
+        SaleValidationResponse saleValidationResponse = new SaleValidationResponse();
+        saleValidationResponse.setTotalPayment(totalPayment);
 
+        List<PaymentResponse> paymentResponseList = paymentService.findPaymentBySale(sale);
+        saleValidationResponse.setPayments(paymentResponseList);
+        BigDecimal leftToPay = totalPayment.subtract(amount);
+        saleValidationResponse.setLeftToPay(leftToPay);
+        return saleValidationResponse;
     }
 
     @Override
