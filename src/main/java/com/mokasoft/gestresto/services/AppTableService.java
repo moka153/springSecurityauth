@@ -12,6 +12,8 @@ public interface AppTableService {
     AppTableResponse updateTable(AppTableRequest appTableRequest,Long tableId);
     void deleteTable(Long tableId);
     List<AppTableResponse> getAllTables(Room room);
+
+    AppTableResponse getTable(Long tableId);
     List<AppTableResponse> getAllTablesByUser(AppUser userId);
     void affectTableToUser(String userName,String tableName);
 

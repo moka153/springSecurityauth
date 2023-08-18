@@ -8,6 +8,7 @@ import com.mokasoft.gestresto.mappers.PaymentMapper;
 import com.mokasoft.gestresto.mappers.SaleDetailMapper;
 import com.mokasoft.gestresto.mappers.SaleMapper;
 import com.mokasoft.gestresto.repositories.*;
+import com.mokasoft.gestresto.services.AppTableService;
 import com.mokasoft.gestresto.services.PaymentService;
 import com.mokasoft.gestresto.services.SaleService;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,7 @@ public class SaleServiceImpl implements SaleService {
     private final SaleDetailRepository saleDetailRepository;
     private final PaymentService paymentService;
     private final PaymentRepository paymentRepository;
+    private final AppTableService appTableService;
 
     @Override
     public SaleResponse saveSale(SaleRequest saleRequest) {
@@ -149,18 +151,26 @@ public class SaleServiceImpl implements SaleService {
             }
         }
         paymentService.savePayment(paymentRequests,saleId);
-
+        SaleValidationResponse saleValidationResponse = new SaleValidationResponse();
         if(totalPayment.compareTo(amount) >= 0){
             saleRepository.saleValidation(saleId);
             tableRepository.availableTable(sale.getAppTable().getTableId(), true, 0, null);
+            saleValidationResponse.setTableStatus(true);
+        }else{
+            saleValidationResponse.setTableStatus(false);
         }
-        SaleValidationResponse saleValidationResponse = new SaleValidationResponse();
+
         saleValidationResponse.setTotalPayment(totalPayment);
 
         List<PaymentResponse> paymentResponseList = paymentService.findPaymentBySale(sale);
         saleValidationResponse.setPayments(paymentResponseList);
         BigDecimal leftToPay = totalPayment.subtract(amount);
-        saleValidationResponse.setLeftToPay(leftToPay);
+        if(leftToPay.compareTo(BigDecimal.ZERO) < 0){
+            saleValidationResponse.setLeftToPay(leftToPay);
+        }else{
+            saleValidationResponse.setLeftToPay(BigDecimal.ZERO);
+        }
+
         return saleValidationResponse;
     }
 

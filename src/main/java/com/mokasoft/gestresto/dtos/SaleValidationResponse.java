@@ -14,4 +14,5 @@ public class SaleValidationResponse {
     private List<PaymentResponse> payments;
     private BigDecimal totalPayment;
     private BigDecimal leftToPay;
+    private boolean tableStatus;
 }

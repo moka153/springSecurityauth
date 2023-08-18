@@ -82,6 +82,13 @@ public class AppTableServiceImpl implements AppTableService {
     }
 
     @Override
+    public AppTableResponse getTable(Long tableId) {
+        AppTable table = appTableRepository.findById(tableId).get();
+        AppTableResponse tableResponse = appTableMapper.appTableToAppTableResponse(table);
+        return tableResponse;
+    }
+
+    @Override
     public List<AppTableResponse> getAllTablesByUser(AppUser appUser) {
         // revoir la gestion des exceptions
         if(appUserRepository.findById(appUser.getId()) == null){
